@@ -1,0 +1,14 @@
+{{#if repos}}
+	{{#each repos}}
+		<div>
+			<h3>
+				<strong><a href="http://github.com/{{full_name}}">{{name}}</a></strong>
+				<span style="font-size:14px;">{{language}}</span>
+			</h3>
+			<p>{{description}}</p>
+			<p>{{stargazers_count}} stars &amp; {{watchers_count}} watchers.</p>
+		</div>
+	{{/each}}
+{{else}}
+	There are no repositores.
+{{/if}}

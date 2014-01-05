@@ -1,0 +1,13 @@
+<div>
+	This page uses a partial to render the list items. The item data is received from the controller and looped in the view.<br><br>
+</div>
+
+{{#if items.length}}
+	<ul>
+		{{#each items}}
+			{{> listItem}}
+		{{/each}}
+	</ul>
+{{else}}
+	<p>There are no items to show</p>
+{{/if}}
