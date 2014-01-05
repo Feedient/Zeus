@@ -12,11 +12,13 @@ See example for reference.
 ```html
 <base href="/path/to/my/app/">
 ```
+
 4. Also the base path in `app/config.js` if you host it in a sub folder:
 ```javascript
 // Path without trailing slash
 path: '/path/to/my/app',
 ```
+
 5. Done!
 
 ### Loading any file or component
