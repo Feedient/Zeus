@@ -29,8 +29,9 @@ app.config = {
 		'list'
 	],
 
-	viewPartials: {
-		listItem: 'partials/list-item'
+	// Optionally preload common partials
+	preloadViewPartials: {
+		// listItem: 'partials/list-item'
 	},
 
 	// Control how many GET requests may be sent at once by the view preloader

@@ -19,6 +19,11 @@ app.router.get('/list', function() {
 		return new Date(a.timestamp).getTime() > new Date(b.timestamp).getTime();
 	};
 
+	// We need to tell the view engine to load the partials/list-item view partial as {{> listItem}}
+	data.partials = {
+		listItem: 'partials/list-item'
+	};
+
 	// Render views/list.html to #main
 	app.view.render('list', data);
 });

@@ -2,6 +2,45 @@ app.view = function() {
 	var viewCache = {};
 
 	/**
+	 * Load the required partials
+	 * @param Array partials
+	 * @param Function callback
+	 */
+	var loadPartials = function(partials, callback) {
+		if (!partials) return callback();
+
+		var loadFunctions = [];
+
+		for (var i in partials) {
+			(function() {
+				var key = i;
+
+				loadFunctions.push(function(parallelCallback) {
+					// Is the view cached?
+					if (viewCache[partials[key]]) {
+						app.log.debug('Registered partial from cache [' + key + ' => ' + partials[key] + ']');
+						Handlebars.registerPartial(key, viewCache[partials[key]]);
+
+						return parallelCallback();
+					}
+
+					// Load the view file
+					$.get(app.config.path + '/app/views/' + partials[key] + '.html', function(source) {
+						app.log.debug('Registered partial [' + key + ' => ' + partials[key] + ']');
+						Handlebars.registerPartial(key, Handlebars.compile(source));
+						parallelCallback();
+					});
+				});
+			}());
+		};
+
+		// Load the above functions in parallel
+		async.parallelLimit(loadFunctions, app.config.parallelLimit, function(err, results) {
+			callback();
+		});
+	};
+
+	/**
 	 * Compile and output or pass along the template to the callback
 	 * @param String source
 	 * @param Array data
@@ -14,14 +53,19 @@ app.view = function() {
 			viewCache[file] = Handlebars.compile(source);
 		}
 
-		var template = viewCache[file](data);
+		loadPartials(data.partials, function() {
+			// Remove the partial options before passing the data to the view
+			delete data.partials;
 
-		if (typeof callback === 'string') {
-			$(callback).html(template);
-			if (thenCallback) thenCallback(callback);
-		} else {
-			callback(template);
-		}
+			var template = viewCache[file](data);
+
+			if (typeof callback === 'string') {
+				$(callback).html(template);
+				if (thenCallback) thenCallback(callback);
+			} else {
+				callback(template);
+			}
+		});
 	};
 
 	/**
@@ -65,13 +109,13 @@ app.view = function() {
 			});
 		});
 
-		for (var i in app.config.viewPartials) {
+		for (var i in app.config.preloadViewPartials) {
 			(function() {
 				var key = i;
 
 				preloadFunctions.push(function(callback) {
-					$.get(app.config.path + '/app/views/' + app.config.viewPartials[key] + '.html', function(source) {
-						app.log.debug('Registered partial [' + key + ' => ' + app.config.viewPartials[key] + ']');
+					$.get(app.config.path + '/app/views/' + app.config.preloadViewPartials[key] + '.html', function(source) {
+						app.log.debug('Registered partial [' + key + ' => ' + app.config.preloadViewPartials[key] + ']');
 						Handlebars.registerPartial(key, Handlebars.compile(source));
 						callback();
 					});
