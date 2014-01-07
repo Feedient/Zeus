@@ -12,11 +12,13 @@ See example for reference.
 ```html
 <base href="/path/to/my/app/">
 ```
+
 4. Also the base path in `app/config.js` if you host it in a sub folder:
 ```javascript
 // Path without trailing slash
 path: '/path/to/my/app',
 ```
+
 5. Done!
 
 ### Loading any file or component
@@ -27,15 +29,15 @@ Controllers are located in `app/controllers/*.js` and are supposed to listen for
 
 ```javascript
 app.router.get('/page', function() {
-   // Render the view app/views/page.hbs and output it at #main
+   // Render the view app/views/page.html and output it at #main
    app.view.render('page', { name: 'Jesper' }, '#main');
 });
 ```
 
-The third argument of `app.view.render()` is optional and defaults to `#main`. It also accepts a callback function with one argument, which will contain the rendered HTML. If you want to do something after the view has loaded, you can pass a callback function (without any arguments) as the fourth argument.
+The third argument of `app.view.render()` which is the CSS selector, is optional and defaults to `#main`. It also accepts a callback function with one argument, which will contain the rendered HTML. If you want to do something after the view has loaded, you can pass a callback function (without any arguments) as the fourth argument.
 
 ### Views
-Views are located in `app/views/*.hbs` and contain [Handlebars](http://handlebarsjs.com) templates. Below is a view that together with the controller above, would output "Hello, my name is Jesper" to any element with id="main".
+Views are located in `app/views/*.html` and contain [Handlebars](http://handlebarsjs.com) templates. Below is a view that together with the controller above, would output "Hello, my name is Jesper" to any element with id="main".
 
 ```html
 Hello, my name is {{name}}
