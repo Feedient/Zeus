@@ -1,5 +1,6 @@
 app.api = function() {
 	var errorHandler;
+	var successHandler;
 	var customHeaders = {};
 
 	/**
@@ -19,11 +20,11 @@ app.api = function() {
 	 */
 	var handleError = function(request, textStatus, error) {
 		if (errorHandler) {
-			errorHandler(request.status);
-		} else {
-			app.log.warning('No API error handler specified.');
-			app.log.error('API responded with status ' + request.status);
+			return errorHandler(request.status);
 		}
+
+		app.log.warning('No API error handler specified.');
+		app.log.error('API responded with status ' + request.status);
 	};
 
 	/**
@@ -32,6 +33,14 @@ app.api = function() {
 	 */
 	this.onError = function(callback) {
 		errorHandler = callback;
+	};
+
+	/**
+	 * Listen for successful API calls
+	 * @param Function callback(data, successCallback)
+	 */
+	this.onSuccess = function(callback) {
+		successHandler = callback;
 	};
 
 	/**
@@ -65,6 +74,19 @@ app.api = function() {
 	};
 
 	/**
+	 * Handle successful API requests
+	 * @param Mixed data
+	 * @param Function callback(data)
+	 */
+	var handleSuccess = function(data, callback) {
+		if (!successHandler) {
+			return callback(data);
+		}
+
+		successHandler(data, callback);
+	};
+
+	/**
 	 * Make a GET request to the API server
 	 * @param String endpoint
 	 * @param Function callback
@@ -76,7 +98,9 @@ app.api = function() {
 			url: formatURL(endpoint),
 			headers: getHeaders(),
 			type: 'GET',
-			success: callback,
+			success: function(data) {
+				handleSuccess(data, callback);
+			},
 			error: handleError
 		});
 	};
@@ -94,7 +118,9 @@ app.api = function() {
 			headers: getHeaders(),
 			type: 'POST',
 			data: data,
-			success: callback,
+			success: function(data) {
+				handleSuccess(data, callback);
+			},
 			error: handleError
 		});
 	};
@@ -114,7 +140,9 @@ app.api = function() {
 			}),
 			type: 'POST',
 			data: data,
-			success: callback,
+			success: function(data) {
+				handleSuccess(data, callback);
+			},
 			error: handleError
 		});
 	};
@@ -134,7 +162,9 @@ app.api = function() {
 			}),
 			type: 'POST',
 			data: data,
-			success: callback,
+			success: function(data) {
+				handleSuccess(data, callback);
+			},
 			error: handleError
 		});
 	};
