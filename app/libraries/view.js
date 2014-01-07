@@ -27,7 +27,8 @@ app.view = function() {
 					// Load the view file
 					$.get(app.config.path + '/app/views/' + partials[key] + '.html', function(source) {
 						app.log.debug('Registered partial [' + key + ' => ' + partials[key] + ']');
-						Handlebars.registerPartial(key, Handlebars.compile(source));
+						viewCache[partials[key]] = Handlebars.compile(source);
+						Handlebars.registerPartial(key, viewCache[partials[key]]);
 						parallelCallback();
 					});
 				});
@@ -35,9 +36,7 @@ app.view = function() {
 		};
 
 		// Load the above functions in parallel
-		async.parallelLimit(loadFunctions, app.config.parallelLimit, function(err, results) {
-			callback();
-		});
+		async.parallelLimit(loadFunctions, app.config.parallelLimit, callback);
 	};
 
 	/**

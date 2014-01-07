@@ -27,12 +27,13 @@ app.router = function() {
 	var handleClick = function(event) {
 		// Get the URL
 		var link = $(this).attr('href');
-			if(link && link !== 'javascript:void(0)') {
+		
+		if(link && link !== 'javascript:void(0)') {
 			// Load the page
 			app.router.routeTo(link);
 
 			// Send it to the browser history
-			history.pushState('', 'New URL: ' + link, link);
+			history.pushState('', '', link);
 
 			// Prevent site from refreshing
 			event.preventDefault();
