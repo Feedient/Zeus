@@ -1,4 +1,7 @@
 app.api = function() {
+	var errorHandler;
+	var customHeaders = {};
+
 	/**
 	 * Format the URL with access token and API URL
 	 * @param String endpoint
@@ -15,7 +18,50 @@ app.api = function() {
 	 * @param String error
 	 */
 	var handleError = function(request, textStatus, error) {
-		// ...
+		if (errorHandler) {
+			errorHandler(request.status);
+		} else {
+			app.log.warning('No API error handler specified.');
+			app.log.error('API responded with status ' + request.status);
+		}
+	};
+
+	/**
+	 * Listen for API errors
+	 * @param Function callback(httpStatus)
+	 */
+	this.onError = function(callback) {
+		errorHandler = callback;
+	};
+
+	/**
+	 * Add a custom HTTP header to every API request
+	 * @param String key
+	 * @param String/Function value
+	 */
+	this.addHeader = function(key, value) {
+		customHeaders[key] = value;
+	};
+
+	/**
+	 * Merge HTTP headers with custom headers
+	 * @param Object headers
+	 * @return Object
+	 */
+	var getHeaders = function(headers) {
+		if (!headers) var headers = {};
+
+		if (customHeaders) {
+			for (var i in customHeaders) {
+				if (typeof customHeaders[i] == 'Function') {
+					headers[i] = customHeaders[i]();
+				} else {
+					headers[i] = customHeaders[i];
+				}
+			}
+		}
+
+		return headers;
 	};
 
 	/**
@@ -28,6 +74,7 @@ app.api = function() {
 
 		$.ajax({
 			url: formatURL(endpoint),
+			headers: getHeaders(),
 			type: 'GET',
 			success: callback,
 			error: handleError
@@ -44,6 +91,7 @@ app.api = function() {
 
 		$.ajax({
 			url: formatURL(endpoint),
+			headers: getHeaders(),
 			type: 'POST',
 			data: data,
 			success: callback,
@@ -61,9 +109,9 @@ app.api = function() {
 
 		$.ajax({
 			url: formatURL(endpoint),
-			headers: {
+			headers: getHeaders({
 				'x-http-method-override': 'PUT'
-			},
+			}),
 			type: 'POST',
 			data: data,
 			success: callback,
@@ -81,9 +129,9 @@ app.api = function() {
 
 		$.ajax({
 			url: formatURL(endpoint),
-			headers: {
+			headers: getHeaders({
 				'x-http-method-override': 'DELETE'
-			},
+			}),
 			type: 'POST',
 			data: data,
 			success: callback,
