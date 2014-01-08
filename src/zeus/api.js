@@ -137,9 +137,7 @@ app.core.api = function() {;
     
         $.ajax({
             url: formatURL(endpoint),
-            headers: getHeaders({
-                'x-http-method-override': 'PUT'
-            }),
+            headers: getHeaders(),
             type: 'POST',
             data: data,
             success: function(data) {
@@ -159,9 +157,7 @@ app.core.api = function() {;
     
         $.ajax({
             url: formatURL(endpoint),
-            headers: getHeaders({
-                'x-http-method-override': 'DELETE'
-            }),
+            headers: getHeaders(),
             type: 'POST',
             data: data,
             success: function(data) {
