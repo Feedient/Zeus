@@ -2,18 +2,20 @@ app.config = {
 
 	// Log level, between 0-3 where 3 is all messages and 0 is none
 	logLevel: 3,
-	
-	// System files
-	system: [
-		// Libraries
-		'lib/zeus/zeus-log',
-		'lib/zeus/zeus-view',
-		'lib/zeus/zeus-router',
-		'lib/zeus/zeus-api',
-
-		// Helpers
-		'app/helpers/timeAgo'
-	],
+   
+    // Core => window.app.core
+    core: [
+        'lib/zeus/log',
+        'lib/zeus/view',
+        'lib/zeus/router',
+        'lib/zeus/api'    
+    ],
+    
+    // Helper files => window.app.helpers
+    helpers: [
+        // Helpers
+        'app/helpers/timeAgo'
+    ],
 
 	// Controller files
 	controllers: [

@@ -1,4 +1,4 @@
-window.router.get('/list', function() {
+app.core.router.get('/list', function() {
 	// Change active state
 	$('.active').removeClass('active');
 	$('#list-link').addClass('active');
@@ -25,5 +25,5 @@ window.router.get('/list', function() {
 	};
 
 	// Render views/list.html to #main
-	window.view.render('list', data);
+	app.core.view.render('list', data);
 });
