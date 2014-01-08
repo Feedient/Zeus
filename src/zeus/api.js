@@ -139,7 +139,7 @@ app.core.api = function() {
 		$.ajax({
 			url: formatURL(endpoint),
 			headers: getHeaders(),
-			type: 'POST',
+			type: 'PUT',
 			data: data,
 			success: function(data) {
 				handleSuccess(data, callback);
@@ -159,7 +159,7 @@ app.core.api = function() {
 		$.ajax({
 			url: formatURL(endpoint),
 			headers: getHeaders(),
-			type: 'POST',
+			type: 'DELETE',
 			data: data,
 			success: function(data) {
 				handleSuccess(data, callback);
