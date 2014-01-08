@@ -6,10 +6,10 @@ app.config = {
 	// System files
 	system: [
 		// Libraries
-		'app/libraries/log',
-		'app/libraries/view',
-		'app/libraries/router',
-		'app/libraries/api',
+		'lib/zeus/zeus-log',
+		'lib/zeus/zeus-view',
+		'lib/zeus/zeus-router',
+		'lib/zeus/zeus-api',
 
 		// Helpers
 		'app/helpers/timeAgo'
@@ -38,7 +38,7 @@ app.config = {
 	parallelLimit: 5,
 
 	// Path without trailing slash
-	path: '',
+	path: '/admin',
 
 	// API server URL
 	API: 'https://api.github.com'
