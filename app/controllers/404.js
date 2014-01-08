@@ -1,7 +1,7 @@
-app.router.error(function() {
+window.router.error(function() {
 	// Remove active state
 	$('.active').removeClass('active');
 
 	// Render views/404.html to #main
-	app.view.render('404');
+	window.view.render('404');
 });
