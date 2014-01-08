@@ -1,7 +1,6 @@
 app.core.router.get('/', function() {
 	// Change active state
-	$('.active').removeClass('active');
-	$('#home-link').addClass('active');
+	app.lib.ui.setActive('home');
 
 	// Render views/index.html to #main
 	app.core.view.render('index', false, '#main', function() {

@@ -1,6 +1,6 @@
 app.core.router.error(function() {
 	// Remove active state
-	$('.active').removeClass('active');
+	app.lib.ui.setActive(false);
 
 	// Render views/404.html to #main
 	app.core.view.render('404');

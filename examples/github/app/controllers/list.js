@@ -1,7 +1,6 @@
 app.core.router.get('/list', function() {
 	// Change active state
-	$('.active').removeClass('active');
-	$('#list-link').addClass('active');
+	app.lib.ui.setActive('list');
 
 	// Example data
 	var data = {
