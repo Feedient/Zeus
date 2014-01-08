@@ -2,20 +2,26 @@ app.config = {
 
 	// Log level, between 0-3 where 3 is all messages and 0 is none
 	logLevel: 3,
+   
+	// Core => app.core.*
+	core: [
+		'lib/zeus/log',
+		'lib/zeus/view',
+		'lib/zeus/router',
+		'lib/zeus/api'
+	],
 	
-	// System files
-	system: [
-		// Libraries
-		'app/libraries/log',
-		'app/libraries/view',
-		'app/libraries/router',
-		'app/libraries/api',
+	// Libraries => app.lib.*
+	libraries: [
+		'app/libraries/ui'
+	],
 
-		// Helpers
+	// Helpers => app.helpers.*
+	helpers: [
 		'app/helpers/timeAgo'
 	],
 
-	// Controller files
+	// Controllers => app.core.router.get(...)
 	controllers: [
 		'app/controllers/index',
 		'app/controllers/list',
