@@ -9,7 +9,6 @@ $(function() {
 	require(['app/config'], function() {
         loadConfig("core", app.config.core, function() {
             loadConfig("helpers", app.config.helpers, function() {
-                console.log(app);
                 triggerDoneLoading(); 
             });
         });
@@ -29,8 +28,6 @@ var loadConfig = function(configName, configKey, callback) {
 
 var triggerDoneLoading = function() {
     $(window).trigger('frameworkReady');
-    
-    console.log(app);
     
     // When done loading the framework, call the onFrameworkInit hook
     for (var i in app.core) {
