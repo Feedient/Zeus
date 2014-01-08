@@ -92,7 +92,7 @@ app.core.view = function () {
 	/**
 	 * Preload and cache compiled view files
 	 */
-	$(window).on('zeusLoaded', function() {
+	$(window).on('ZeusLoaded', function() {
 		var preloadFunctions = [];
 	
 		// Loop through all requested files

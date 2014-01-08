@@ -23,7 +23,7 @@ $(function() {
 		});
 
 		async.series(loaders, function() {
-			$(window).trigger('zeusLoaded');
+			$(window).trigger('ZeusLoaded');
 		});
 	});
 
