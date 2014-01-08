@@ -4,6 +4,10 @@
 See example for reference.
 
 ***
+### Requirements
+Internet Explorer > 9.0
+Firefox > 25.0
+
 ### Installation
 1. Clone or download this repository.
 2. Move it to your web server's public path (such as www, htdocs or public_html)
@@ -20,6 +24,10 @@ path: '/path/to/my/app',
 ```
 
 5. Done!
+
+### Hooks
+Zeus got hooks that you can use when developing libraries.
+- onInitFramework() // Gets called when the framework is done loading.
 
 ### Loading any file or component
 Please add your file path to the `config.system` or `config.controllers` arrays in `app/config.js`. You may emit the .js extension, since [require.js](http://requirejs.org) adds that automatically.
