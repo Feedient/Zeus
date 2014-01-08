@@ -49,7 +49,7 @@ $(window).on('ZeusReady', function() {
 ```
 
 ### Loading any file or component
-Please add your file path to the `config.system` or `config.controllers` arrays in `app/config.js`. You may emit the .js extension, since [require.js](http://requirejs.org) adds that automatically.
+Please add your file path to the approproiate config array, such as `libraries` in `app/config.js`. You may emit the .js extension, since [require.js](http://requirejs.org) adds that automatically.
 
 ### Controllers
 Controllers are located in `app/controllers/*.js` and are supposed to listen for a specific URL and respond appropriately, with a view or certain action.
