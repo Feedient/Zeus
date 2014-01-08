@@ -68,14 +68,6 @@ app.core.view = function () {
 		});
 	};
 	
-	this.onFrameworkInit = function() {
-		// Preload all views	
-		self.preload(function() {
-			// Load the controllers and then start the router
-			require(app.config.controllers, app.core.router.initialize);
-		});
-	};
-	
 	/**
 	 * Render a view template
 	 * @param String file
@@ -96,11 +88,11 @@ app.core.view = function () {
 			});
 		}
 	};
-	
+
 	/**
 	 * Preload and cache compiled view files
 	 */
-	this.preload = function(callback) {
+	$(window).on('zeusLoaded', function() {
 		var preloadFunctions = [];
 	
 		// Loop through all requested files
@@ -133,7 +125,7 @@ app.core.view = function () {
 	
 		// Load the above functions in parallel
 		async.parallelLimit(preloadFunctions, app.config.parallelLimit, function(err, results) {
-			callback();
+			$(window).trigger('ZeusReady');
 		});
-	};
+	});
 };

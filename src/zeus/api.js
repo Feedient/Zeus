@@ -5,7 +5,7 @@ app.core.api = function() {
 	var successHandler;
 	var customHeaders = {};
 	var self = this;
-	
+
 	/**
 	 * Format the URL with access token and API URL
 	 * @param String endpoint
@@ -14,7 +14,7 @@ app.core.api = function() {
 	var formatURL = function(endpoint) {
 		return app.config.API + endpoint;
 	};
-	
+
 	/**
 	 * Display a nice error message if the request failed
 	 * @param XMLHttpRequest request

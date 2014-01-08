@@ -3,7 +3,7 @@ app.config = {
 	// Log level, between 0-3 where 3 is all messages and 0 is none
 	logLevel: 3,
    
-	// Core => window.app.core
+	// Core => app.core.*
 	core: [
 		'lib/zeus/log',
 		'lib/zeus/view',
@@ -11,13 +11,17 @@ app.config = {
 		'lib/zeus/api'
 	],
 	
-	// Helper files => window.app.helpers
+	// Libraries => app.lib.*
+	libraries: [
+		'app/libraries/ui'
+	],
+
+	// Helpers => app.helpers.*
 	helpers: [
-		// Helpers
 		'app/helpers/timeAgo'
 	],
 
-	// Controller files
+	// Controllers => app.core.router.get(...)
 	controllers: [
 		'app/controllers/index',
 		'app/controllers/list',
@@ -40,7 +44,7 @@ app.config = {
 	parallelLimit: 5,
 
 	// Path without trailing slash
-	path: '/admin',
+	path: '',
 
 	// API server URL
 	API: 'https://api.github.com'

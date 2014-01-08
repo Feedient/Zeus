@@ -4,8 +4,26 @@ $(function() {
 	window.app = {};
 
 	require(['app/config'], function() {
-		loadFiles("core", app.config.core, function() {
-			loadFiles("helpers", app.config.helpers, triggerDoneLoading);
+		var loaders = [];
+
+		loaders.push(function(callback) {
+			loadFiles('core', app.config.core, callback);
+		});
+
+		loaders.push(function(callback) {
+			loadFiles('lib', app.config.libraries, callback);
+		});
+
+		loaders.push(function(callback) {
+			loadFiles('helpers', app.config.helpers, callback);
+		});
+
+		loaders.push(function(callback) {
+			loadFiles('controllers', app.config.controllers, callback, true);
+		});
+
+		async.series(loaders, function() {
+			$(window).trigger('zeusLoaded');
 		});
 	});
 
@@ -14,10 +32,11 @@ $(function() {
 	 * @param String namespace
 	 * @param Array files
 	 * @param Function callback
+	 * @param Boolean dontInitialize
 	 */
-	var loadFiles = function(namespace, files, callback) {
+	var loadFiles = function(namespace, files, callback, dontInitialize) {
 		// Create a key to store them
-		if (!app[namespace]) app[namespace] = {};
+		if (!app[namespace] && !dontInitialize) app[namespace] = {};
 		
 		// Load the files
 		require(files, function() {
@@ -26,22 +45,12 @@ $(function() {
 				var fileParts = filePath.split('/');
 				var file = fileParts[fileParts.length - 1];
 
-				app[namespace][file] = new app[namespace][file]();
+				if (!dontInitialize)
+					app[namespace][file] = new app[namespace][file]();
 			});
 			
 			// Callback if done loading.
 			callback();
 		});
-	};
-
-	var triggerDoneLoading = function() {
-		$(window).trigger('frameworkReady');
-		
-		// When done loading the framework, call the onFrameworkInit hook
-		for (var i in app.core) {
-			if (app.core[i].onFrameworkInit) {
-				app.core[i].onFrameworkInit();    
-			}
-		};
 	};
 });

@@ -28,22 +28,6 @@ app.core.router = function () {
 	};
 	
 	/**
-	 * Load the default controller
-	 */
-	this.initialize = function () {
-		// Check for HTML5 pushState support
-		if (history.pushState) {
-			app.core.log.debug('Initialized router');
-			$(window).bind('popstate', function () {
-				window.router.routeTo(window.location.pathname);
-			});
-	
-			self.assignEvents();
-			self.routeTo(window.location.pathname);
-		}
-	};
-	
-	/**
 	 * Assign click listeners to all internal links
 	 */
 	this.assignEvents = function () {
@@ -110,13 +94,30 @@ app.core.router = function () {
 		// Try to find a controller in the hooks
 		if (typeof hooks[url] != 'undefined') {
 			app.core.log.debug('Routed to controller [' + url + ']');
-			window.controller = new hooks[url]();
+			window.app.controller = new hooks[url]();
 		} else {
 			app.core.log.warning('Controller [' + url + '] not found');
 			
 			if (errorHandler) {
-				window.controller = new errorHandler();
+				window.app.controller = new errorHandler();
 			}
 		}
 	};
+
+	/**
+	 * Load the default controller
+	 */
+	$(window).on('ZeusReady', function() {
+		// Check for HTML5 pushState support
+		if (history.pushState) {
+			app.core.log.debug('Initialized router');
+
+			$(window).bind('popstate', function() {
+				window.router.routeTo(window.location.pathname);
+			});
+	
+			self.assignEvents();
+			self.routeTo(window.location.pathname);
+		}
+	});
 };
