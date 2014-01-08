@@ -1,12 +1,12 @@
 'use strict';
 
-if (!console) {
-	var console = {
-		log: function() { }
-	};
-}
-
 app.core.log = function() {
+    if (!console) {
+        var console = {
+            log: function() { }
+        };
+    }
+    
     console.log('\n\n');
 
     this.debug = function(message) {

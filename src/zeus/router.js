@@ -1,10 +1,11 @@
 'use strict';
 
-var hooks = {};
-var errorHandler = false;
+app.core.router = function () { 
+    var hooks = {};
+    var errorHandler = false;
+        
+    this.active = false;
     
-app.core.router.active = false;
-app.core.router = function () {
     /**
      * Click listener for links
      * @param Event event

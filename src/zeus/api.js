@@ -1,10 +1,12 @@
 'use strict';
 
-var errorHandler;
-var successHandler;
-var customHeaders = {};
 
-app.core.api = function() {;
+
+app.core.api = function() {
+    var errorHandler;
+    var successHandler;
+    var customHeaders = {};
+    
     /**
      * Format the URL with access token and API URL
      * @param String endpoint

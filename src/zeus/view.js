@@ -1,8 +1,8 @@
 'use strict';
 
-var viewCache = {};
-
 app.core.view = function () {
+    var viewCache = {};
+    
     /**
      * Load the required partials
      * @param Array partials
