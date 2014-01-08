@@ -2,6 +2,7 @@
 
 app.core.view = function () {
     var viewCache = {};
+    var self = this;
     
     /**
      * Load the required partials
@@ -69,7 +70,7 @@ app.core.view = function () {
     
     this.onFrameworkInit = function() {
         // Preload all views	
-        this.preload(function() {
+        self.preload(function() {
             // Load the controllers and then start the router
             require(app.config.controllers, app.core.router.initialize);
         });

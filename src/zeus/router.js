@@ -2,6 +2,7 @@
 
 app.core.router = function () { 
     var hooks = {};
+    var self = this;
     var errorHandler = false;
         
     this.active = false;
@@ -16,7 +17,7 @@ app.core.router = function () {
         
         if (link && link !== 'javascript:void(0)') {
             // Load the page
-            this.routeTo(link);
+            self.routeTo(link);
     
             // Send it to the browser history
             history.pushState('', '', link);
@@ -37,8 +38,8 @@ app.core.router = function () {
                 window.router.routeTo(window.location.pathname);
             });
     
-            this.assignEvents();
-            this.routeTo(window.location.pathname);
+            self.assignEvents();
+            self.routeTo(window.location.pathname);
         }
     };
     
@@ -104,7 +105,7 @@ app.core.router = function () {
             url = url.substr(0, url.length - 1);
         }
     
-        this.active = url;
+        self.active = url;
     
         // Try to find a controller in the hooks
         if (typeof hooks[url] != 'undefined') {

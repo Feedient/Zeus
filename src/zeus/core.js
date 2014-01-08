@@ -21,6 +21,14 @@ var loadConfig = function(configName, configKey, callback) {
     
     // Load the files
     require(configKey, function() {
+        // File loaded, init it now and store it
+        configKey.forEach(function (filePath) {
+            var fileParts = filePath.split('/');
+            var file = fileParts[fileParts.length - 1];
+
+            app[configName][file] = new app[configName][file]();
+        });
+        
         // Callback if done loading.
         return callback();
     });

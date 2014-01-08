@@ -1,11 +1,10 @@
 'use strict';
 
-
-
 app.core.api = function() {
     var errorHandler;
     var successHandler;
     var customHeaders = {};
+    var self = this;
     
     /**
      * Format the URL with access token and API URL

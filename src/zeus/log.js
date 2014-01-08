@@ -1,6 +1,8 @@
 'use strict';
 
 app.core.log = function() {
+    var self = this;
+    
     if (!console) {
         var console = {
             log: function() { }
