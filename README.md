@@ -57,7 +57,7 @@ Controllers are located in `app/controllers/*.js` and are supposed to listen for
 ```javascript
 app.core.router.get('/page', function() {
    // Render the view app/views/page.html and output it at #main
-   app.view.render('page', { name: 'Jesper' }, '#main');
+   app.core.view.render('page', { name: 'Jesper' }, '#main');
 });
 ```
 
@@ -99,4 +99,54 @@ app.helpers.myHelper = function(text) {
 Helpers may also register themselves as Handlebars helpers, accessed via `{{myHelper 'Example text'}}` in Handlebars templates.
 ```javascript
 Handlebars.registerHelper('myHelper', app.helpers.myHelper);
+```
+
+### API library
+Zeus ships with a handy library for performing API calls via AJAX. You are required to set your API server's base URL in `app/config.js`, as the property named `API`. The API library is accessed via `app.core.api` and provides the following methods.
+
+#### app.core.api.{HTTP VERB}(...)
+Perform GET, POST, PUT or DELETE requests. Response data is obtained from the callback which takes only the response data as argument. All HTTP verbs but GET optionally accept a second argument that is a key-value object of data.
+
+If the response is of type application/json, it will be automatically parsed as JSON.
+
+- app.core.api.get(path, callback)
+- app.core.api.post(path, data, callback)
+- app.core.api.put(path, data, callback)
+- app.core.api.delete(path, data, callback)
+
+```javascript
+var bookData = {
+    title: 'Harry Potter',
+    author: 'J.K. Rowling'
+};
+
+app.core.api.post('/books', bookData, function(response) {
+    // do something with response
+});
+```
+
+#### app.core.api.addHeader(key, value)
+Add a custom HTTP header to every API call. Value may be a string or a refernce to a function that returns a string. If it's a function, the function will be called before every request, thus making sure the value is always up to date.
+
+```javascript
+app.core.api.addHeader('user-token', app.lib.user.getToken);
+```
+
+#### app.core.api.onError(callback)
+Listen for failed API requests. Callback takes one argument that is the HTTP status code.
+
+#### app.core.api.onSuccess(callback)
+Listen for successful API requests. Your callback takes two arguments: the request response and the real success callback. **You must pass the request response along to the success callback.** Using this method, you may check for errors in the API response or similar. 
+
+```javascript
+app.core.api.onSuccess(function(data, successCallback) {
+    // Authentication error
+    if (data.error.type == 'AUTH_ERROR') {
+        // Stop and show the error page
+        app.core.view.render('error');
+        return;
+    }
+    
+    successCallback(data);
+});
 ```
