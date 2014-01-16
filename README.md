@@ -57,7 +57,7 @@ Controllers are located in `app/controllers/*.js` and are supposed to listen for
 ```javascript
 app.core.router.get('/page', function() {
    // Render the view app/views/page.html and output it at #main
-   app.view.render('page', { name: 'Jesper' }, '#main');
+   app.core.view.render('page', { name: 'Jesper' }, '#main');
 });
 ```
 
