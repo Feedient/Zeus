@@ -4,7 +4,7 @@ app.core.router = function () {
 	var hooks = {};
 	var self = this;
 	var errorHandler = false;
-		
+
 	this.active = false;
 	
 	/**
@@ -90,7 +90,7 @@ app.core.router = function () {
 		}
 	
 		self.active = url;
-	
+
 		// Try to find a controller in the hooks
 		if (typeof hooks[url] != 'undefined') {
 			app.core.log.debug('Routed to controller [' + url + ']');
@@ -102,6 +102,8 @@ app.core.router = function () {
 				window.app.controller = new errorHandler();
 			}
 		}
+
+		$(window).trigger('ZeusRoute', self.active);
 	};
 
 	/**
