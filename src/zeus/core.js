@@ -15,7 +15,8 @@ $(function() {
 		});
 
 		loaders.push(function(callback) {
-			loadFiles('helpers', app.config.helpers, callback);
+			app.helpers = {};
+			loadFiles('helpers', app.config.helpers, callback, true);
 		});
 
 		loaders.push(function(callback) {
