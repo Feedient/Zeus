@@ -3,7 +3,7 @@
 $(function() {
 	window.app = {};
 
-	require(['app/config'], function() {
+	var initialize = function() {
 		var loaders = [];
 
 		loaders.push(function(callback) {
@@ -26,6 +26,16 @@ $(function() {
 		async.series(loaders, function() {
 			$(window).trigger('ZeusLoaded');
 		});
+	};
+
+	require(['app/config'], function() {
+		if (app.config.preInitializationHook) {
+			require([app.config.preInitializationHook], function() {
+				app[app.config.preInitializationHook](initialize);
+			});
+		} else {
+			initialize();
+		}
 	});
 
 	/**
