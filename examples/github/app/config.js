@@ -2,32 +2,40 @@ app.config = {
 
 	// Log level, between 0-3 where 3 is all messages and 0 is none
 	logLevel: 3,
-   
-	// Core => app.core.*
-	core: [
-		'lib/zeus/log',
-		'lib/zeus/view',
-		'lib/zeus/router',
-		'lib/zeus/api'
-	],
-	
-	// Libraries => app.lib.*
-	libraries: [
-		'app/libraries/ui'
-	],
 
-	// Helpers => app.helpers.*
-	helpers: [
-		'app/helpers/timeAgo'
-	],
+	autoLoad: {
+		// Core => app.core.*
+		core: [
+			'lib/zeus/log',
+			'lib/zeus/view',
+			'lib/zeus/router',
+			'lib/zeus/api'
+		],
+		
+		// Libraries => app.lib.*
+		lib: [
+			'app/libraries/ui'
+		],
 
-	// Controllers => app.core.router.get(...)
-	controllers: [
-		'app/controllers/index',
-		'app/controllers/list',
-		'app/controllers/repos',
-		'app/controllers/404'
-	],
+		// Helpers => app.helpers.*
+		helpers:  {
+			initialize: false,
+			files: [
+				'app/helpers/timeAgo'
+			]
+		},
+
+		// Controllers => app.core.router.get(...)
+		controllers: {
+			initialize: false,
+			files: [
+				'app/controllers/index',
+				'app/controllers/list',
+				'app/controllers/repos',
+				'app/controllers/404'
+			]
+		}
+	},
 
 	// Optionally preload common views
 	preloadViews: [

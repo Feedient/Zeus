@@ -6,22 +6,17 @@ $(function() {
 	var initialize = function() {
 		var loaders = [];
 
-		loaders.push(function(callback) {
-			loadFiles('core', app.config.core, callback);
-		});
-
-		loaders.push(function(callback) {
-			loadFiles('lib', app.config.libraries, callback);
-		});
-
-		loaders.push(function(callback) {
-			app.helpers = {};
-			loadFiles('helpers', app.config.helpers, callback, true);
-		});
-
-		loaders.push(function(callback) {
-			loadFiles('controllers', app.config.controllers, callback, true);
-		});
+		for (var i in app.config.autoLoad) {
+			(function(key, value) {
+				loaders.push(function(callback) {
+					if ($.isArray(value)) {
+						loadFiles(key, value, callback);
+					} else {
+						loadFiles(key, value.files, callback, !value.initialize);
+					}
+				});
+			}(i, app.config.autoLoad[i]));
+		}
 
 		async.series(loaders, function() {
 			$(window).trigger('ZeusLoaded');
@@ -50,8 +45,8 @@ $(function() {
 	 */
 	var loadFiles = function(namespace, files, callback, dontInitialize) {
 		// Create a key to store them
-		if (!app[namespace] && !dontInitialize) app[namespace] = {};
-		
+		if (!app[namespace]) app[namespace] = {};
+
 		// Load the files
 		require(files, function() {
 			// File loaded, init it now and store it
