@@ -40,7 +40,7 @@ app.core.api = function() {
 	
 		if (customHeaders) {
 			for (var i in customHeaders) {
-				if (typeof customHeaders[i] == 'Function') {
+				if (typeof customHeaders[i] == 'function') {
 					headers[i] = customHeaders[i]();
 				} else {
 					headers[i] = customHeaders[i];
