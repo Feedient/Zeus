@@ -42,18 +42,18 @@ $(window).on('ZeusLoaded', function() {
 #### 2. ZeusReady
 Triggered after ZeusLoaded has been triggered, and all views have been preloaded.
 
+```javascript
+$(window).on('ZeusReady', function() {
+    ...
+});
+```
+
 #### 3. ZeusRoute
 Triggered on route change, i.e. when the router calls a new controller. Provides the route URL as second argument.
 
 ```javascript
 $(window).on('ZeusRoute', function(event, url) {
     // do something with url
-});
-```
-
-```javascript
-$(window).on('ZeusReady', function() {
-	...
 });
 ```
 
