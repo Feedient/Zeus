@@ -115,7 +115,7 @@ app.core.router = function () {
 			app.core.log.debug('Initialized router');
 
 			$(window).bind('popstate', function() {
-				window.router.routeTo(window.location.pathname);
+				window.app.core.router.routeTo(window.location.pathname);
 			});
 	
 			self.assignEvents();
