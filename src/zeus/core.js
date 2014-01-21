@@ -31,7 +31,10 @@ $(function() {
 	require(['app/config'], function() {
 		if (app.config.preInitializationHook) {
 			require([app.config.preInitializationHook], function() {
-				app[app.config.preInitializationHook](initialize);
+				var fileParts = app.config.preInitializationHook.split('/');
+				var file = fileParts[fileParts.length - 1];
+
+				app[file](initialize);
 			});
 		} else {
 			initialize();
