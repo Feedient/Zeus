@@ -154,7 +154,7 @@ app.core.api = function() {
 	 * @param Function callback
 	 */
 	this.delete = function(endpoint, data, callback) {
-		app.log.debug('Calling API endpoint [DELETE ' + endpoint + ']');
+		app.core.log.debug('Calling API endpoint [DELETE ' + endpoint + ']');
 	
 		$.ajax({
 			url: formatURL(endpoint),
