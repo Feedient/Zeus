@@ -52,6 +52,8 @@ app.core.view = function () {
 			app.core.log.debug('Compiled view [' + file + ']')
 			viewCache[file] = Handlebars.compile(source);
 		}
+
+		if (!data) var data = { partials: false };
 	
 		loadPartials(data.partials, function() {
 			// Remove the partial options before passing the data to the view
