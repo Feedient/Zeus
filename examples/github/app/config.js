@@ -6,6 +6,7 @@ app.config = {
 	autoLoad: {
 		// Core => app.core.*
 		core: [
+			'lib/zeus/hooks',
 			'lib/zeus/log',
 			'lib/zeus/view',
 			'lib/zeus/router',
