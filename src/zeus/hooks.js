@@ -21,13 +21,22 @@ app.core.hooks = function() {
 	 * @param Function callback
 	 */
 	this.trigger = function(identifier, data, callback) {
-		if (!callback) var callback = data;
+		if (!callback) {
+			var callback = data;
+			var data = null;
+		}
 
 		if (!hooks[identifier] || !hooks[identifier].length) {
 			callback();
 			return;
 		}
 
-		// ...
+		var hookListeners = hooks[identifier].slice(); // Copy the array
+
+		for (var i in hookListeners) {
+			hookListeners[i] = async.apply(hookListeners[i], data);
+		}
+
+		async.series(hookListeners, callback); 
 	};
 };
