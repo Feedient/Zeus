@@ -126,8 +126,6 @@ app.core.view = function () {
 		};
 	
 		// Load the above functions in parallel
-		async.parallelLimit(preloadFunctions, app.config.parallelLimit, function(err, results) {
-			next();
-		});
+		async.parallelLimit(preloadFunctions, app.config.parallelLimit, next);
 	});
 };
