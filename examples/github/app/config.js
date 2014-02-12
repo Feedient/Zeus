@@ -6,6 +6,7 @@ app.config = {
 	autoLoad: {
 		// Core => app.core.*
 		core: [
+			'lib/zeus/hooks',
 			'lib/zeus/log',
 			'lib/zeus/view',
 			'lib/zeus/router',
@@ -34,6 +35,13 @@ app.config = {
 				'app/controllers/repos',
 				'app/controllers/404'
 			]
+		},
+
+		setup: {
+			initialize: false,
+			files: [
+				'app/setup'
+			]
 		}
 	},
 
@@ -48,11 +56,15 @@ app.config = {
 		// listItem: 'partials/list-item'
 	},
 
-	// Control how many GET requests may be sent at once by the view preloader
-	parallelLimit: 5,
-
 	// Path without trailing slash
 	path: '',
+
+	// View engine settings
+	viewEngine: {
+		defaultSelector: '#main',
+		fileExtension: 'html',
+		parallelLimit: 5,
+	},
 
 	// API server URL
 	API: 'https://api.github.com'

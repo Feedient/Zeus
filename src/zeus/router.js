@@ -1,6 +1,6 @@
-'use strict';
-
 app.core.router = function () { 
+	'use strict';
+	
 	var hooks = {};
 	var self = this;
 	var errorHandler = false;
@@ -20,7 +20,7 @@ app.core.router = function () {
 			self.routeTo(link);
 	
 			// Send it to the browser history
-			history.pushState('', '', link);
+			history.pushState(null, null, link);
 	
 			// Prevent site from refreshing
 			event.preventDefault();
@@ -103,13 +103,13 @@ app.core.router = function () {
 			}
 		}
 
-		$(window).trigger('ZeusRoute', self.active);
+		app.core.hooks.trigger('route', { path: self.active });
 	};
 
 	/**
 	 * Load the default controller
 	 */
-	$(window).on('ZeusReady', function() {
+	app.core.hooks.on('ready', function(data, next) {
 		// Check for HTML5 pushState support
 		if (history.pushState) {
 			app.core.log.debug('Initialized router');
@@ -119,16 +119,8 @@ app.core.router = function () {
 			});
 	
 			self.assignEvents();
-
-			if (app.config.preRouteHook) {
-				(eval(app.config.preRouteHook))(function() {
-					self.routeTo(window.location.pathname);
-				});
-
-				return;
-			}
-
 			self.routeTo(window.location.pathname);
+			next();
 		}
 	});
 };

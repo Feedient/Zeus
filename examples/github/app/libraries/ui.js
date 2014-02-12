@@ -1,13 +1,26 @@
 app.lib.ui = function() {
 	/**
 	 * Set the active state of menu links
-	 * @param String page
+	 * @param Object data
+	 * @param Function next
 	 */
-	this.setActive = function(page) {
-		$('.active').removeClass('active');
+	app.core.hooks.on('route', function(data, next) {
+		var url = data.path;
 
-		if (page) {
-			$('#' + page + '-link').addClass('active');
+		if (url == '/') {
+			// Recognize / as ./
+			url = './';
+		} else {
+			// Remove the slash in the beginning
+			url = url.substr(1);
 		}
-	};
+
+		// Remove the old active link, if any
+		$('.active').removeClass();
+
+		// Add the active state to the link with the correct URL
+		$('#menu [href="' + url + '"]').parent().addClass('active');
+
+		next();
+	});
 };

@@ -1,6 +1,6 @@
-'use strict';
-
 $(function() {
+	'use strict';
+	
 	window.app = {};
 
 	var initialize = function() {
@@ -18,23 +18,17 @@ $(function() {
 			}(i, app.config.autoLoad[i]));
 		}
 
+		// Autoload all components
 		async.series(loaders, function() {
-			$(window).trigger('ZeusLoaded');
+			// All files have been autoloaded, give libraries opportunity to preload own assets
+			app.core.hooks.trigger('loaded', function() {
+				// All necessary assets have been preloaded
+				app.core.hooks.trigger('ready');
+			});
 		});
 	};
 
-	require(['app/config'], function() {
-		if (app.config.preInitializationHook) {
-			require([app.config.preInitializationHook], function() {
-				var fileParts = app.config.preInitializationHook.split('/');
-				var file = fileParts[fileParts.length - 1];
-
-				app[file](initialize);
-			});
-		} else {
-			initialize();
-		}
-	});
+	require(['app/config'], initialize);
 
 	/**
 	 * Load the provided files and initialize them
@@ -58,6 +52,8 @@ $(function() {
 					app[namespace][file] = new app[namespace][file]();
 			});
 			
+			app.core.log.debug('Loaded ' + namespace + ' (' + files.length + ' files)');
+
 			// Callback if done loading.
 			callback();
 		});

@@ -1,9 +1,14 @@
-'use strict';
-
 app.core.view = function () {
+	'use strict';
+	
 	var viewCache = {};
 	var self = this;
 	
+	// Default settings
+	if (!app.config.viewEngine) app.config.viewEngine = {};
+	if (!app.config.viewEngine.defaultSelector) app.config.viewEngine.defaultSelector = '#main';
+	if (!app.config.viewEngine.fileExtension) app.config.viewEngine.fileExtension = 'html';
+
 	/**
 	 * Load the required partials
 	 * @param Array partials
@@ -37,7 +42,7 @@ app.core.view = function () {
 		};
 	
 		// Load the above functions in parallel
-		async.parallelLimit(loadFunctions, app.config.parallelLimit, callback);
+		async.parallelLimit(loadFunctions, app.config.viewEngine.parallelLimit, callback);
 	};
 	
 	/**
@@ -78,13 +83,13 @@ app.core.view = function () {
 	 * @param Function thenCallback
 	 */
 	this.render = function(file, data, callback, thenCallback) {
-		if (!callback) var callback = '#main';
+		if (!callback) var callback = app.config.viewEngine.defaultSelector;
 		
 		if (viewCache[file]) {
 			app.core.log.debug('Loaded view [' + file + '] from cache');
 			compileView(file, viewCache[file], data, callback, thenCallback);
 		} else {
-			$.get(app.config.path + '/app/views/' + file + '.html', function(source) {
+			$.get(app.config.path + '/app/views/' + file + '.' + app.config.viewEngine.fileExtension, function(source) {
 				app.core.log.debug('Loaded view [' + file + ']');
 				compileView(file, source, data, callback, thenCallback);
 			});
@@ -94,7 +99,7 @@ app.core.view = function () {
 	/**
 	 * Preload and cache compiled view files
 	 */
-	$(window).on('ZeusLoaded', function() {
+	app.core.hooks.on('loaded', function(data, next) {
 		var preloadFunctions = [];
 	
 		// Loop through all requested files
@@ -102,7 +107,7 @@ app.core.view = function () {
 			// Add a loading function to the preloadFunctions array
 			preloadFunctions.push(function(callback) {
 				// Load the view html file
-				$.get(app.config.path + '/app/views/' + file + '.html', function(source) {
+				$.get(app.config.path + '/app/views/' + file + '.' + app.config.viewEngine.fileExtension, function(source) {
 					app.core.log.debug('Preloaded view [' + file + ']');
 	
 					// Compile and cache the view
@@ -116,7 +121,7 @@ app.core.view = function () {
 				var key = i;
 	
 				preloadFunctions.push(function(callback) {
-					$.get(app.config.path + '/app/views/' + app.config.preloadViewPartials[key] + '.html', function(source) {
+					$.get(app.config.path + '/app/views/' + app.config.preloadViewPartials[key] + '.' + app.config.viewEngine.fileExtension, function(source) {
 						app.core.log.debug('Registered partial [' + key + ' => ' + app.config.preloadViewPartials[key] + ']');
 						Handlebars.registerPartial(key, Handlebars.compile(source));
 						callback();
@@ -126,8 +131,6 @@ app.core.view = function () {
 		};
 	
 		// Load the above functions in parallel
-		async.parallelLimit(preloadFunctions, app.config.parallelLimit, function(err, results) {
-			$(window).trigger('ZeusReady');
-		});
+		async.parallelLimit(preloadFunctions, app.config.viewEngine.parallelLimit, next);
 	});
 };

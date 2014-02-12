@@ -8,6 +8,12 @@
 - Android Browser >= 4.2
 - iOS Safari >= 4.2
 
+## Dependencies
+- [Async.js](https://github.com/caolan/async/)
+- [jQuery](http://jquery.com) **or** [Zepto.js](http://zeptojs.com/)
+- [Handlebars.js](https://github.com/wycats/handlebars.js/)
+- [Require.js](http://requirejs.org/)
+
 ## Installation
 1. Clone or download this repository.
 2. Move it to your web server's public path (such as www, htdocs or public_html)
@@ -27,90 +33,8 @@ path: '/path/to/my/app',
 
 6. Done!
 
-## Framework events
-You can listen for certain events during the Zeus lifecycle, using jQuery/Zepto events.
-
-#### 1. ZeusLoaded
-Triggered after Zeus core, libraries, helpers and controllers have been loaded.
-
-```javascript
-$(window).on('ZeusLoaded', function() {
-	...
-});
-```
-
-#### 2. ZeusReady
-Triggered after ZeusLoaded has been triggered, and all views have been preloaded.
-
-```javascript
-$(window).on('ZeusReady', function() {
-    ...
-});
-```
-
-#### 3. ZeusRoute
-Triggered on route change, i.e. when the router calls a new controller. Provides the route URL as second argument.
-
-```javascript
-$(window).on('ZeusRoute', function(event, url) {
-    // do something with url
-});
-```
-
-## Framework hooks
-You can control the lifecycle of Zeus using hooks that have the power to stop further execution of the system.
-
-#### preInitializationHook
-A file which code is run before any `autoLoad` files are loaded. Example use case is compatibility checks.
-
-**`config.js` example property:**
-```javascript
-preInitializationHook: 'app/compatibility'
-```
-
-**`app/compatibility.js` example code (using [Modernizr](http://http://modernizr.com/)):**
-```javascript
-app.compatibility = function(callback) {
-    if (!Modernizr.history) {
-        // Show error message
-
-        return;
-    }
-
-    callback();
-};
-```
-
-#### preRouteHook
-A method which is run before Zeus routes to the **first** controller. Example use cases are getting and caching user data up front, or validating an API token.
-
-**`config.js` example property:**
-```javascript
-preRouteHook: 'app.lib.user.validateToken'
-```
-
-**`app/libraries/user.js -> validateToken` example code:**
-```javascript
-app.lib.user = function() {
-    // ...
-    
-    this.validateToken = function(callback) {
-        app.core.api.get('/user', function(response) {
-            if (response.error) {
-                // Remove token cookie, redirect to frontpage etc.
-                return;
-            }
-
-            callback();
-        });
-    };
-
-    // ...
-};
-```
-
 ## Loading any file or component
-Please add your file path to the appropriate config array, such as `libraries` in `app/config.js`. You may emit the .js extension, since [require.js](http://requirejs.org) adds that automatically.
+Please add your file path to the appropriate `autoLoad` section, such as `lib`, in `app/config.js`. You may emit the .js extension, since [Require.js](http://requirejs.org) adds that automatically.
 
 ## Controllers
 Controllers are located in `app/controllers/*.js` and are supposed to listen for a specific URL and respond appropriately, with a view or certain action.
@@ -161,6 +85,9 @@ Helpers may also register themselves as Handlebars helpers, accessed via `{{myHe
 ```javascript
 Handlebars.registerHelper('myHelper', app.helpers.myHelper);
 ```
+
+## System hooks
+What we call "System hooks" is a way to "hook into" the Zeus lifecycle and execute certain code that has the power to stop the entire Zeus app from further execution/loading. [Read more](https://github.com/Feedient/Zeus/wiki/System-hooks)
 
 ## API library
 Zeus ships with a handy library for performing API calls via AJAX. You are required to set your API server's base URL in `app/config.js`, as the property named `API`. The API library is accessed via `app.core.api` and provides the following methods.

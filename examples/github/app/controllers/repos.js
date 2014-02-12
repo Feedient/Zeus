@@ -1,7 +1,4 @@
 app.core.router.get('/repos', function() {
-	// Change active state
-	app.lib.ui.setActive('repos');
-	
 	/**
 	 * Load the repository data from the API and render it
 	 */

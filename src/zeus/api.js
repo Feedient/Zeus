@@ -1,6 +1,6 @@
-'use strict';
-
 app.core.api = function() {
+	'use strict';
+	
 	var errorHandler;
 	var successHandler;
 	var customHeaders = {};
