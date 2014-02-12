@@ -56,16 +56,14 @@ app.config = {
 		// listItem: 'partials/list-item'
 	},
 
-	// Control how many GET requests may be sent at once by the view preloader
-	parallelLimit: 5,
-
 	// Path without trailing slash
 	path: '',
 
 	// View engine settings
 	viewEngine: {
 		defaultSelector: '#main',
-		fileExtension: 'html'
+		fileExtension: 'html',
+		parallelLimit: 5,
 	},
 
 	// API server URL

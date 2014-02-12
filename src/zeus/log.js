@@ -16,7 +16,7 @@ app.core.log = function() {
 	 */
 	this.debug = function(message) {
 		if (app.config.logLevel >= 3) {
-			console.log('[Debug] ' + message);
+			console.log('%c[Debug]%c ' + message, 'font-weight:bold;color:blue;', 'font-weight:normal;');
 		}
 	};
 	
@@ -39,4 +39,6 @@ app.core.log = function() {
 			console.log('%c[Error] ' + message, 'background-color: #ff0000; color: #fff; font-weight:bold;');
 		}		
 	};
+
+	console.log('%c======= Powered by Zeus =======', 'color:#1ead91;font-weight:bold;');
 };

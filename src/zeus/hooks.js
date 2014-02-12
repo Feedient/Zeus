@@ -26,8 +26,12 @@ app.core.hooks = function() {
 			var data = null;
 		}
 
-		if (!hooks[identifier] || !hooks[identifier].length) {
-			callback();
+		var count = hooks[identifier] ? hooks[identifier].length : 0;
+
+		app.core.log.debug('Triggered hook [' + identifier + '] (' + count + ' listeners)');
+
+		if (!count) {
+			if (callback) callback();
 			return;
 		}
 

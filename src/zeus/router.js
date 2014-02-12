@@ -20,7 +20,7 @@ app.core.router = function () {
 			self.routeTo(link);
 	
 			// Send it to the browser history
-			history.pushState('', '', link);
+			history.pushState(null, null, link);
 	
 			// Prevent site from refreshing
 			event.preventDefault();

@@ -1,7 +1,4 @@
 app.core.router.get('/list', function() {
-	// Change active state
-	app.lib.ui.setActive('list');
-
 	// Example data
 	var data = {
 		items: [

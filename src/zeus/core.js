@@ -52,6 +52,8 @@ $(function() {
 					app[namespace][file] = new app[namespace][file]();
 			});
 			
+			app.core.log.debug('Loaded ' + namespace + ' (' + files.length + ' files)');
+
 			// Callback if done loading.
 			callback();
 		});

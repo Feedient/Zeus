@@ -6,8 +6,8 @@ app.core.view = function () {
 	
 	// Default settings
 	if (!app.config.viewEngine) app.config.viewEngine = {};
-	if (!app.core.viewEngine.defaultSelector) app.core.viewEngine.defaultSelector = '#main';
-	if (!app.core.viewEngine.fileExtension) app.core.viewEngine.fileExtension = 'html';
+	if (!app.config.viewEngine.defaultSelector) app.config.viewEngine.defaultSelector = '#main';
+	if (!app.config.viewEngine.fileExtension) app.config.viewEngine.fileExtension = 'html';
 
 	/**
 	 * Load the required partials
@@ -42,7 +42,7 @@ app.core.view = function () {
 		};
 	
 		// Load the above functions in parallel
-		async.parallelLimit(loadFunctions, app.config.parallelLimit, callback);
+		async.parallelLimit(loadFunctions, app.config.viewEngine.parallelLimit, callback);
 	};
 	
 	/**
@@ -131,6 +131,6 @@ app.core.view = function () {
 		};
 	
 		// Load the above functions in parallel
-		async.parallelLimit(preloadFunctions, app.config.parallelLimit, next);
+		async.parallelLimit(preloadFunctions, app.config.viewEngine.parallelLimit, next);
 	});
 };
