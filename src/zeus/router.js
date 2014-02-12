@@ -1,6 +1,6 @@
-'use strict';
-
 app.core.router = function () { 
+	'use strict';
+	
 	var hooks = {};
 	var self = this;
 	var errorHandler = false;

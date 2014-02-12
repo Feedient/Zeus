@@ -1,5 +1,3 @@
-'use strict';
-
 // Prevent retarded browsers from doing retarded stuff :)
 if (!console) {
 	var console = {
@@ -8,6 +6,8 @@ if (!console) {
 }
 
 app.core.log = function() {
+	'use strict';
+	
 	var self = this;
 
 	/**

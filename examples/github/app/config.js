@@ -35,6 +35,13 @@ app.config = {
 				'app/controllers/repos',
 				'app/controllers/404'
 			]
+		},
+
+		setup: {
+			initialize: false,
+			files: [
+				'app/setup'
+			]
 		}
 	},
 
@@ -54,6 +61,12 @@ app.config = {
 
 	// Path without trailing slash
 	path: '',
+
+	// View engine settings
+	viewEngine: {
+		defaultSelector: '#main',
+		fileExtension: 'html'
+	},
 
 	// API server URL
 	API: 'https://api.github.com'

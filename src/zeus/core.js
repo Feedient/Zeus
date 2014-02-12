@@ -1,6 +1,6 @@
-'use strict';
-
 $(function() {
+	'use strict';
+	
 	window.app = {};
 
 	var initialize = function() {
