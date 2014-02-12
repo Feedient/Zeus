@@ -119,15 +119,6 @@ app.core.router = function () {
 			});
 	
 			self.assignEvents();
-
-			if (app.config.preRouteHook) {
-				(eval(app.config.preRouteHook))(function() {
-					self.routeTo(window.location.pathname);
-				});
-
-				return;
-			}
-
 			self.routeTo(window.location.pathname);
 			next();
 		}

@@ -28,18 +28,7 @@ $(function() {
 		});
 	};
 
-	require(['app/config'], function() {
-		if (app.config.preInitializationHook) {
-			require([app.config.preInitializationHook], function() {
-				var fileParts = app.config.preInitializationHook.split('/');
-				var file = fileParts[fileParts.length - 1];
-
-				app[file](initialize);
-			});
-		} else {
-			initialize();
-		}
-	});
+	require(['app/config'], initialize);
 
 	/**
 	 * Load the provided files and initialize them
