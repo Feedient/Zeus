@@ -95,7 +95,7 @@ app.core.api = function() {
 	 * @param Function callback
 	 */
 	this.get = function(endpoint, callback) {
-		app.core.log.debug('Calling API endpoint [GET ' + endpoint + ']');
+		app.core.log.debug('Calling API endpoint [GET ' + endpoint + ']', 'Zeus/API');
 	
 		$.ajax({
 			url: formatURL(endpoint),
@@ -114,7 +114,7 @@ app.core.api = function() {
 	 * @param Function callback
 	 */
 	this.post = function(endpoint, data, callback) {
-		app.core.log.debug('Calling API endpoint [POST ' + endpoint + ']');
+		app.core.log.debug('Calling API endpoint [POST ' + endpoint + ']', 'Zeus/API');
 	
 		$.ajax({
 			url: formatURL(endpoint),
@@ -134,7 +134,7 @@ app.core.api = function() {
 	 * @param Function callback
 	 */
 	this.put = function(endpoint, data, callback) {
-		app.core.log.debug('Calling API endpoint [POST ' + endpoint + ']');
+		app.core.log.debug('Calling API endpoint [POST ' + endpoint + ']', 'Zeus/API');
 	
 		$.ajax({
 			url: formatURL(endpoint),
@@ -154,7 +154,7 @@ app.core.api = function() {
 	 * @param Function callback
 	 */
 	this.delete = function(endpoint, data, callback) {
-		app.core.log.debug('Calling API endpoint [DELETE ' + endpoint + ']');
+		app.core.log.debug('Calling API endpoint [DELETE ' + endpoint + ']', 'Zeus/API');
 	
 		$.ajax({
 			url: formatURL(endpoint),
