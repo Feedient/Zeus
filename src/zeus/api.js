@@ -26,8 +26,8 @@ app.core.api = function() {
 			return errorHandler(request.status);
 		}
 	
-		app.core.log.warning('No API error handler specified.');
-		app.core.log.error('API responded with status ' + request.status);
+		app.core.log.warning('No API error handler specified.', 'Zeus/API');
+		app.core.log.error('API responded with status ' + request.status, 'Zeus/API');
 	};
 	
 	/**

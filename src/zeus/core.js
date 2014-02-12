@@ -52,7 +52,7 @@ $(function() {
 					app[namespace][file] = new app[namespace][file]();
 			});
 			
-			app.core.log.debug('Loaded ' + namespace + ' (' + files.length + ' files)');
+			app.core.log.debug('Loaded ' + namespace + ' (' + files.length + ' files)', 'Zeus/Core');
 
 			// Callback if done loading.
 			callback();

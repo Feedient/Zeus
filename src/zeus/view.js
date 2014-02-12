@@ -25,7 +25,7 @@ app.core.view = function() {
 			loadFunctions.push(function(parallelCallback) {
 				// Is the view cached?
 				if (viewCache[partials[i]]) {
-					app.core.log.debug('Registered partial from cache [' + i + ' => ' + partials[i] + ']');
+					app.core.log.debug('Registered partial from cache [' + i + ' => ' + partials[i] + ']', 'Zeus/View');
 					Handlebars.registerPartial(i, viewCache[partials[i]]);
 		
 					return parallelCallback();
@@ -33,7 +33,7 @@ app.core.view = function() {
 		
 				// Load the view file
 				$.get(app.config.path + '/app/views/' + partials[i] + '.html', function(source) {
-					app.core.log.debug('Registered partial [' + i + ' => ' + partials[i] + ']');
+					app.core.log.debug('Registered partial [' + i + ' => ' + partials[i] + ']', 'Zeus/View');
 					viewCache[partials[i]] = Handlebars.compile(source);
 					Handlebars.registerPartial(i, viewCache[partials[i]]);
 					parallelCallback();
@@ -54,7 +54,7 @@ app.core.view = function() {
 	 */
 	var compileView = function(file, source, data, selector, thenCallback) {
 		if (typeof source === 'string') {
-			app.core.log.debug('Compiled view [' + file + ']')
+			app.core.log.debug('Compiled view [' + file + ']', 'Zeus/View');
 			viewCache[file] = Handlebars.compile(source);
 		}
 
@@ -87,11 +87,11 @@ app.core.view = function() {
 		if (!selector) var selector = app.config.viewEngine.defaultSelector;
 		
 		if (viewCache[file]) {
-			app.core.log.debug('Loaded view [' + file + '] from cache');
+			app.core.log.debug('Loaded view [' + file + '] from cache', 'Zeus/View');
 			compileView(file, viewCache[file], data, selector, thenCallback);
 		} else {
 			$.get(app.config.path + '/app/views/' + file + '.' + app.config.viewEngine.fileExtension, function(source) {
-				app.core.log.debug('Loaded view [' + file + ']');
+				app.core.log.debug('Loaded view [' + file + ']', 'Zeus/View');
 				compileView(file, source, data, selector, thenCallback);
 			});
 		}
@@ -109,7 +109,7 @@ app.core.view = function() {
 			preloadFunctions.push(function(callback) {
 				// Load the view html file
 				$.get(app.config.path + '/app/views/' + file + '.' + app.config.viewEngine.fileExtension, function(source) {
-					app.core.log.debug('Preloaded view [' + file + ']');
+					app.core.log.debug('Preloaded view [' + file + ']', 'Zeus/View');
 	
 					// Compile and cache the view
 					compileView(file, source, false, function() {
@@ -125,7 +125,7 @@ app.core.view = function() {
 	
 				preloadFunctions.push(function(callback) {
 					$.get(app.config.path + '/app/views/' + app.config.preloadViewPartials[key] + '.' + app.config.viewEngine.fileExtension, function(source) {
-						app.core.log.debug('Registered partial [' + key + ' => ' + app.config.preloadViewPartials[key] + ']');
+						app.core.log.debug('Registered partial [' + key + ' => ' + app.config.preloadViewPartials[key] + ']', 'Zeus/View');
 						Handlebars.registerPartial(key, Handlebars.compile(source));
 						callback();
 					});

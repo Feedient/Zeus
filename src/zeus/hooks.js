@@ -28,7 +28,7 @@ app.core.hooks = function() {
 
 		var count = hooks[identifier] ? hooks[identifier].length : 0;
 
-		app.core.log.debug('Triggered hook [' + identifier + '] (' + count + ' listeners)');
+		app.core.log.debug('Triggered hook [' + identifier + '] (' + count + ' listeners)', 'Zeus/Hooks');
 
 		if (!count) {
 			if (callback) callback();

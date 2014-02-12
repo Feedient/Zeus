@@ -100,10 +100,10 @@ app.core.router = function() {
 		app.core.hooks.trigger('route', { path: self.active }, function() {
 			// Try to find a controller in the hooks
 			if (typeof hooks[url] != 'undefined') {
-				app.core.log.debug('Routed to controller [' + url + ']');
+				app.core.log.debug('Routed to controller [' + url + ']', 'Zeus/Router');
 				window.app.controller = new hooks[url]();
 			} else {
-				app.core.log.warning('Controller [' + url + '] not found');
+				app.core.log.warning('Controller [' + url + '] not found', 'Zeus/Router');
 				
 				if (errorHandler) {
 					window.app.controller = new errorHandler();
@@ -118,7 +118,7 @@ app.core.router = function() {
 	app.core.hooks.on('ready', function(data, next) {
 		// Check for HTML5 pushState support
 		if (history.pushState) {
-			app.core.log.debug('Initialized router');
+			app.core.log.debug('Initialized router', 'Zeus/Router');
 
 			$(window).bind('popstate', function() {
 				self.routeTo(window.location.pathname);
