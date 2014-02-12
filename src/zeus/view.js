@@ -1,4 +1,4 @@
-app.core.view = function () {
+app.core.view = function() {
 	'use strict';
 	
 	var viewCache = {};
@@ -14,7 +14,7 @@ app.core.view = function () {
 	 * @param Array partials
 	 * @param Function callback
 	 */
-	var loadPartials = function (partials, callback) {
+	var loadPartials = function(partials, callback) {
 		if (!partials) {
 			return callback();
 		}
@@ -52,7 +52,7 @@ app.core.view = function () {
 	 * @param Mixed callback CSS selector or callback
 	 * @param Function thenCallback
 	 */
-	var compileView = function(file, source, data, callback, thenCallback) {
+	var compileView = function(file, source, data, selector, thenCallback) {
 		if (typeof source === 'string') {
 			app.core.log.debug('Compiled view [' + file + ']')
 			viewCache[file] = Handlebars.compile(source);
@@ -66,11 +66,12 @@ app.core.view = function () {
 	
 			var template = viewCache[file](data);
 	
-			if (typeof callback === 'string') {
-				$(callback).html(template);
-				if (thenCallback) thenCallback(callback);
+			if (typeof selector === 'string') {
+				$(selector).html(template);
+				app.core.router.assignEvents(selector);
+				if (thenCallback) thenCallback(selector);
 			} else {
-				callback(template);
+				selector(template);
 			}
 		});
 	};
@@ -82,16 +83,16 @@ app.core.view = function () {
 	 * @param Function callback
 	 * @param Function thenCallback
 	 */
-	this.render = function(file, data, callback, thenCallback) {
-		if (!callback) var callback = app.config.viewEngine.defaultSelector;
+	this.render = function(file, data, selector, thenCallback) {
+		if (!selector) var selector = app.config.viewEngine.defaultSelector;
 		
 		if (viewCache[file]) {
 			app.core.log.debug('Loaded view [' + file + '] from cache');
-			compileView(file, viewCache[file], data, callback, thenCallback);
+			compileView(file, viewCache[file], data, selector, thenCallback);
 		} else {
 			$.get(app.config.path + '/app/views/' + file + '.' + app.config.viewEngine.fileExtension, function(source) {
 				app.core.log.debug('Loaded view [' + file + ']');
-				compileView(file, source, data, callback, thenCallback);
+				compileView(file, source, data, selector, thenCallback);
 			});
 		}
 	};
@@ -111,7 +112,9 @@ app.core.view = function () {
 					app.core.log.debug('Preloaded view [' + file + ']');
 	
 					// Compile and cache the view
-					compileView(file, source, false, callback);
+					compileView(file, source, false, function() {
+						callback();
+					});
 				});
 			});
 		});
@@ -129,7 +132,7 @@ app.core.view = function () {
 				});
 			}());
 		};
-	
+
 		// Load the above functions in parallel
 		async.parallelLimit(preloadFunctions, app.config.viewEngine.parallelLimit, next);
 	});

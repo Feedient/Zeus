@@ -1,4 +1,4 @@
-app.core.router = function () { 
+app.core.router = function() { 
 	'use strict';
 	
 	var hooks = {};
@@ -11,7 +11,7 @@ app.core.router = function () {
 	 * Click listener for links
 	 * @param Event event
 	 */
-	var handleClick = function (event) {
+	var handleClick = function(event) {
 		// Get the URL
 		var link = $(this).attr('href');
 		
@@ -29,31 +29,37 @@ app.core.router = function () {
 	
 	/**
 	 * Assign click listeners to all internal links
+	 * @param String parentSelector
 	 */
-	this.assignEvents = function () {
-		if (history.pushState) {
-			// Assign AJAX loading behavior
-			$('a').each(function () {
-				var element = $(this);
-	
-				// Make sure it has not been assigned already and is not an external link
-				if (element.attr('data-hasevents') != '1' 
-				&& element.attr('target') != '_blank'
-				&& !/http(s)?:\/\//.test(element.attr('href'))
-				&& element.attr('data-direct') != '1') {
-					element.attr('data-hasevents', '1');
-	
-					element.on('click', handleClick);
-				}
-			});
+	this.assignEvents = function(parentSelector) {
+		if (!history.pushState) return;
+
+		var selector = 'a';
+
+		if (parentSelector) {
+			selector = parentSelector + ' ' + selector;
 		}
+
+		// Assign AJAX loading behavior
+		$(selector).each(function() {
+			var $element = $(this);
+
+			// Make sure it has not been assigned already and is not an external link
+			if ($element.attr('data-hasevents') != '1' 
+			&& $element.attr('target') != '_blank'
+			&& !/http(s)?:\/\//.test($element.attr('href'))
+			&& $element.attr('data-direct') != '1') {
+				$element.attr('data-hasevents', '1');
+				$element.on('click', handleClick);
+			}
+		});
 	};
 	
 	/**
 	 * Listen for 404 errors
 	 * @param Function callback
 	 */
-	this.error = function (callback) {
+	this.error = function(callback) {
 		errorHandler = callback;
 	};
 	
@@ -62,7 +68,7 @@ app.core.router = function () {
 	 * @param String call
 	 * @param Function object
 	 */
-	this.get = function (call, object) {
+	this.get = function(call, object) {
 		hooks[call] = object;
 	};
 	
@@ -70,7 +76,7 @@ app.core.router = function () {
 	 * Load an URL from the hooked controllers
 	 * @param String url
 	 */
-	this.routeTo = function (url) {
+	this.routeTo = function(url) {
 		// Remove the base path from the URL
 		url = url.replace(app.config.path, '');
 	
