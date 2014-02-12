@@ -103,13 +103,13 @@ app.core.router = function () {
 			}
 		}
 
-		$(window).trigger('ZeusRoute', self.active);
+		app.core.hooks.trigger('route', { path: self.active });
 	};
 
 	/**
 	 * Load the default controller
 	 */
-	$(window).on('ZeusReady', function() {
+	app.core.hooks.on('ready', function(data, next) {
 		// Check for HTML5 pushState support
 		if (history.pushState) {
 			app.core.log.debug('Initialized router');
@@ -129,6 +129,7 @@ app.core.router = function () {
 			}
 
 			self.routeTo(window.location.pathname);
+			next();
 		}
 	});
 };

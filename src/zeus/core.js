@@ -18,8 +18,13 @@ $(function() {
 			}(i, app.config.autoLoad[i]));
 		}
 
+		// Autoload all components
 		async.series(loaders, function() {
-			$(window).trigger('ZeusLoaded');
+			// All files have been autoloaded, give libraries opportunity to preload own assets
+			app.core.hooks.trigger('loaded', function() {
+				// All necessary assets have been preloaded
+				app.core.hooks.trigger('ready');
+			});
 		});
 	};
 

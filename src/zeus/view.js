@@ -94,7 +94,7 @@ app.core.view = function () {
 	/**
 	 * Preload and cache compiled view files
 	 */
-	$(window).on('ZeusLoaded', function() {
+	app.core.hooks.on('loaded', function(data, next) {
 		var preloadFunctions = [];
 	
 		// Loop through all requested files
@@ -127,7 +127,7 @@ app.core.view = function () {
 	
 		// Load the above functions in parallel
 		async.parallelLimit(preloadFunctions, app.config.parallelLimit, function(err, results) {
-			$(window).trigger('ZeusReady');
+			next();
 		});
 	});
 };

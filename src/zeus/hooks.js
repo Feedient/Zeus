@@ -21,7 +21,7 @@ app.core.hooks = function() {
 	 * @param Function callback
 	 */
 	this.trigger = function(identifier, data, callback) {
-		if (!callback) {
+		if (!callback && typeof data == 'function') {
 			var callback = data;
 			var data = null;
 		}
@@ -37,6 +37,8 @@ app.core.hooks = function() {
 			hookListeners[i] = async.apply(hookListeners[i], data);
 		}
 
-		async.series(hookListeners, callback); 
+		async.series(hookListeners, function() {
+			if (callback) callback();
+		}); 
 	};
 };
