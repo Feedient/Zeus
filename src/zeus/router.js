@@ -97,19 +97,19 @@ app.core.router = function() {
 	
 		self.active = url;
 
-		// Try to find a controller in the hooks
-		if (typeof hooks[url] != 'undefined') {
-			app.core.log.debug('Routed to controller [' + url + ']');
-			window.app.controller = new hooks[url]();
-		} else {
-			app.core.log.warning('Controller [' + url + '] not found');
-			
-			if (errorHandler) {
-				window.app.controller = new errorHandler();
+		app.core.hooks.trigger('route', { path: self.active }, function() {
+			// Try to find a controller in the hooks
+			if (typeof hooks[url] != 'undefined') {
+				app.core.log.debug('Routed to controller [' + url + ']');
+				window.app.controller = new hooks[url]();
+			} else {
+				app.core.log.warning('Controller [' + url + '] not found');
+				
+				if (errorHandler) {
+					window.app.controller = new errorHandler();
+				}
 			}
-		}
-
-		app.core.hooks.trigger('route', { path: self.active });
+		});
 	};
 
 	/**
@@ -121,7 +121,7 @@ app.core.router = function() {
 			app.core.log.debug('Initialized router');
 
 			$(window).bind('popstate', function() {
-				window.app.core.router.routeTo(window.location.pathname);
+				self.routeTo(window.location.pathname);
 			});
 	
 			self.assignEvents();
