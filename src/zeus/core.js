@@ -4,6 +4,10 @@ $(function() {
 	window.app = {};
 
 	var initialize = function() {
+		app.core.hooks.trigger('preloaded', function() {
+				//TODO nothing todo here, but hooks require callback function
+		});
+		
 		var loaders = [];
 
 		for (var i in app.config.autoLoad) {
