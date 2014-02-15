@@ -4,26 +4,28 @@ $(function() {
 	window.app = {};
 
 	var initialize = function() {
-		var loaders = [];
+		app.core.hooks.trigger('preloaded', function() {
+			var loaders = [];
 
-		for (var i in app.config.autoLoad) {
-			(function(key, value) {
-				loaders.push(function(callback) {
-					if ($.isArray(value)) {
-						loadFiles(key, value, callback);
-					} else {
-						loadFiles(key, value.files, callback, !value.initialize);
-					}
+			for (var i in app.config.autoLoad) {
+				(function(key, value) {
+					loaders.push(function(callback) {
+						if ($.isArray(value)) {
+							loadFiles(key, value, callback);
+						} else {
+							loadFiles(key, value.files, callback, !value.initialize);
+						}
+					});
+				}(i, app.config.autoLoad[i]));
+			}
+
+			// Autoload all components
+			async.series(loaders, function() {
+				// All files have been autoloaded, give libraries opportunity to preload own assets
+				app.core.hooks.trigger('loaded', function() {
+					// All necessary assets have been preloaded
+					app.core.hooks.trigger('ready');
 				});
-			}(i, app.config.autoLoad[i]));
-		}
-
-		// Autoload all components
-		async.series(loaders, function() {
-			// All files have been autoloaded, give libraries opportunity to preload own assets
-			app.core.hooks.trigger('loaded', function() {
-				// All necessary assets have been preloaded
-				app.core.hooks.trigger('ready');
 			});
 		});
 	};
