@@ -100,7 +100,7 @@ app.core.view = function() {
 	/**
 	 * Preload and cache compiled view files
 	 */
-	app.core.hooks.on('loaded', function(data, next) {
+	app.core.hooks.on('preloadAssets', function(data, next) {
 		var preloadFunctions = [];
 	
 		// Loop through all requested files
