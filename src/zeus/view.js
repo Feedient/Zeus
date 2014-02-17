@@ -112,9 +112,9 @@ app.core.view = function() {
 					app.core.log.debug('Preloaded view [' + file + ']', 'Zeus/View');
 	
 					// Compile and cache the view
-					compileView(file, source, false, function() {
-						callback();
-					});
+					viewCache[file] = Handlebars.compile(source);
+					
+					callback();
 				});
 			});
 		});
