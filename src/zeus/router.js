@@ -115,7 +115,7 @@ app.core.router = function() {
 	/**
 	 * Load the default controller
 	 */
-	app.core.hooks.on('launchApp', function(data, next) {
+	app.core.hooks.on('ready', function(data, next) {
 		// Check for HTML5 pushState support
 		if (history.pushState) {
 			app.core.log.debug('Initialized router', 'Zeus/Router');

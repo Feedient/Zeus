@@ -21,11 +21,11 @@ $(function() {
 		// Autoload all components
 		async.series(loaders, function() {
 			// All files have been autoloaded, preload data necessary for the "loaded" hooks
-			app.core.hooks.trigger('preloadData', function() {
+			app.core.hooks.trigger('loaded', function() {
 				// All necessary data has been loaded, give libraries opportunity to preload own assets
 				app.core.hooks.trigger('preloadAssets', function() {
 					// All necessary assets have been preloaded
-					app.core.hooks.trigger('launchApp');
+					app.core.hooks.trigger('ready');
 				});
 			});
 		});
