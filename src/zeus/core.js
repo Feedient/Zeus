@@ -51,8 +51,10 @@ $(function() {
 				var fileParts = filePath.split('/');
 				var file = fileParts[fileParts.length - 1];
 
-				if (!dontInitialize)
-					app[namespace][file] = new app[namespace][file]();
+				// Remove cache busting hash, if any
+				if (/\./.test(file)) file = file.replace(/\..+$/, '');
+
+				if (!dontInitialize) app[namespace][file] = new app[namespace][file]();
 			});
 			
 			app.core.log.debug('Loaded ' + namespace + ' (' + files.length + ' files)', 'Zeus/Core');
