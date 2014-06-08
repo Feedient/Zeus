@@ -7,7 +7,7 @@ app.lib.cache = function() {
 	 * @return Mixed
 	 */ 
 	this.get = function(key) {
-		if (data[key] && new Date() >= data[key].expiration) {
+		if (this.has(key)) {
 			return data[key].value;
 		}
 
@@ -23,12 +23,15 @@ app.lib.cache = function() {
 	this.add = function(key, value, expiration) {
 		if (!data[key]) data[key] = {};
 
-		// Calculate expiration date
-		var date = new Date();
-		date.setTime(date.getTime() + expiration*1000);
+		if (expiration) {
+			// Calculate expiration date
+			var date = new Date();
+			date.setTime(date.getTime() + expiration*1000);
 
-		// Store expiration and value
-		data[key].expiration = date;
+			// Store expiration and value
+			data[key].expiration = date;
+		}
+
 		data[key].value = value;
 	};
 
@@ -37,7 +40,7 @@ app.lib.cache = function() {
 	 * @param String key
 	 */
 	this.has = function(key) {
-		return data[key] && new Date() >= data[key].expiration;
+		return data[key] && (!data[key].expiration || new Date() >= data[key].expiration);
 	};
 
 	/**

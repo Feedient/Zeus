@@ -15,7 +15,8 @@ app.config = {
 		
 		// Libraries => app.lib.*
 		lib: [
-			'app/libraries/ui'
+			'app/libraries/ui',
+			'app/libraries/cache'
 		],
 
 		// Helpers => app.helpers.*
