@@ -4,12 +4,12 @@ app.services.github = function() {
 	 * @param Function callback(data)
 	 */
 	this.getRepositories = function(callback) {
-		if (app.lib.cache.has('github.repositories')) {
-			return callback(app.lib.cache.get('github.repositories'));
+		if (app.core.cache.has('github.repositories')) {
+			return callback(app.core.cache.get('github.repositories'));
 		}
 
 		app.core.api.get('/orgs/feedient/repos', function(data) {
-			app.lib.cache.add('github.repositories', data);
+			app.core.cache.add('github.repositories', data);
 			callback(data);
 		});
 	};

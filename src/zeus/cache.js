@@ -1,4 +1,4 @@
-app.lib.cache = function() {
+app.core.cache = function() {
 	var data = {};
 
 	/**

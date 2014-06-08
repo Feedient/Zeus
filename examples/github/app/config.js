@@ -10,13 +10,13 @@ app.config = {
 			'lib/zeus/log',
 			'lib/zeus/view',
 			'lib/zeus/router',
-			'lib/zeus/api'
+			'lib/zeus/api',
+			'lib/zeus/cache'
 		],
 		
 		// Libraries => app.lib.*
 		lib: [
-			'app/libraries/ui',
-			'app/libraries/cache'
+			'app/libraries/ui'
 		],
 
 		// Helpers => app.helpers.*
