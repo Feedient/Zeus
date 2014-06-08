@@ -51,4 +51,4 @@ Helpers are located in `app/helpers/*.js` and are merely simple functions that d
 What we call "System hooks" is a way to "hook into" the Zeus lifecycle and execute certain code that has the power to stop the entire Zeus app from further execution/loading. [Read more](https://github.com/Feedient/Zeus/wiki/%5BCore%5D-System-hooks)
 
 ## [Core] API library
-Zeus ships with a handy library for performing API calls via AJAX. You are required to set your API server's base URL in `app/config.js`, as the property named `API`. [Read more](https://github.com/Feedient/Zeus/wiki/Core-Library:-API)
+Zeus ships with a handy library for performing API calls via AJAX. You are required to set your API server's base URL in `app/config.js`, as the property named `API`. [Read more](https://github.com/Feedient/Zeus/wiki/%5BCore%5D-API)
