@@ -4,7 +4,7 @@ app.lib.ui = function() {
 	 * @param Object data
 	 * @param Function next
 	 */
-	app.core.hooks.on('route', function(data, next) {
+	var setActiveLink = function(data, next) {
 		var url = data.path;
 
 		if (url == '/') {
@@ -22,5 +22,8 @@ app.lib.ui = function() {
 		$('#menu [href="' + url + '"]').parent().addClass('active');
 
 		next();
-	});
+	};
+
+	// Listen for the route sytem hook
+	app.core.hooks.on('route', setActiveLink);
 };

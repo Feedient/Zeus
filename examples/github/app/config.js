@@ -26,6 +26,11 @@ app.config = {
 			]
 		},
 
+		// Services => app.services.*
+		services: [
+			'app/services/github'
+		],
+
 		// Controllers => app.core.router.get(...)
 		controllers: {
 			initialize: false,

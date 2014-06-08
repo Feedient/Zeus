@@ -1,6 +1,7 @@
 /**
  * Format time as time ago in short unit form (such as 5h for 5 hours ago)
  * @param Int timestamp
+ * @return String
  */
 app.helpers.timeAgo = function(timestamp) {
 	var seconds = Math.floor((new Date() - new Date(timestamp)) / 1000);
@@ -26,4 +27,5 @@ app.helpers.timeAgo = function(timestamp) {
 	return number + timeAbbr;
 };
 
+// Make the helper accessible from Handlebars views
 Handlebars.registerHelper('timeAgo', app.helpers.timeAgo);
