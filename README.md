@@ -52,3 +52,6 @@ What we call "System hooks" is a way to "hook into" the Zeus lifecycle and execu
 
 ## [Core] API library
 Zeus ships with a handy library for performing API calls via AJAX. You are required to set your API server's base URL in `app/config.js`, as the property named `API`. [Read more](https://github.com/Feedient/Zeus/wiki/%5BCore%5D-API)
+
+## [Core] Cache library
+To make sure your single page application is fast and responsive to the user, it's a good idea to cache data, especially if it's retrieved from a slow API server. Zeus provide basic caching through in-memory storage for visit-long storage capabilities. [Read more](https://github.com/Feedient/Zeus/wiki/%5BCore%5D-Cache)
