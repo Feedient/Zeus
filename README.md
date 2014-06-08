@@ -44,6 +44,9 @@ Views are located in `app/views/*.html` and contain [Handlebars](http://handleba
 ## Libraries
 Libraries are located in `app/libraries/*.js` and provide functionality either by directly performing actions or by providing public methods, that controllers can access. [Read more](https://github.com/Feedient/Zeus/wiki/Libraries)
 
+## Services
+Services are simply data providers or managers. Instead of calling the API server directly from your controller or library, you should call the API via a service. Your controllers and libraries may use data from the API, but they should not take care of how to obtain it – that's for the service. [Read more](https://github.com/Feedient/Zeus/wiki/Services)
+
 ## Helpers
 Helpers are located in `app/helpers/*.js` and are merely simple functions that do basic things such as formatting data. In our example application, `app.helpers.timeAgo(timestamp)` is a helper that converts a date string into relative time (like "5h ago"). [Read more](https://github.com/Feedient/Zeus/wiki/Helpers)
 
