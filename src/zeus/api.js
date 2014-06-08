@@ -94,7 +94,7 @@ app.core.api = function() {
 	 * @param String endpoint
 	 * @param Function callback
 	 */
-	this.get = function(endpoint, callback) {
+	this.get = function(endpoint, callback, errorHandler) {
 		app.core.log.debug('Calling API endpoint [GET ' + endpoint + ']', 'Zeus/API');
 	
 		$.ajax({
@@ -104,7 +104,11 @@ app.core.api = function() {
 			success: function(data) {
 				handleSuccess(data, callback);
 			},
-			error: handleError
+			error: function(request) {
+				if (errorHandler) return errorHandler(endpoint, request);
+
+				handleError(request);
+			}
 		});
 	};
 	
@@ -113,7 +117,7 @@ app.core.api = function() {
 	 * @param String endpoint
 	 * @param Function callback
 	 */
-	this.post = function(endpoint, data, callback) {
+	this.post = function(endpoint, data, callback, errorHandler) {
 		app.core.log.debug('Calling API endpoint [POST ' + endpoint + ']', 'Zeus/API');
 	
 		$.ajax({
@@ -124,7 +128,11 @@ app.core.api = function() {
 			success: function(data) {
 				handleSuccess(data, callback);
 			},
-			error: handleError
+			error: function(request) {
+				if (errorHandler) return errorHandler(endpoint, request);
+
+				handleError(request);
+			}
 		});
 	};
 	
@@ -133,7 +141,7 @@ app.core.api = function() {
 	 * @param String endpoint
 	 * @param Function callback
 	 */
-	this.put = function(endpoint, data, callback) {
+	this.put = function(endpoint, data, callback, errorHandler) {
 		app.core.log.debug('Calling API endpoint [POST ' + endpoint + ']', 'Zeus/API');
 	
 		$.ajax({
@@ -144,7 +152,11 @@ app.core.api = function() {
 			success: function(data) {
 				handleSuccess(data, callback);
 			},
-			error: handleError
+			error: function(request) {
+				if (errorHandler) return errorHandler(endpoint, request);
+
+				handleError(request);
+			}
 		});
 	};
 	
@@ -153,7 +165,7 @@ app.core.api = function() {
 	 * @param String endpoint
 	 * @param Function callback
 	 */
-	this.delete = function(endpoint, data, callback) {
+	this.delete = function(endpoint, data, callback, errorHandler) {
 		app.core.log.debug('Calling API endpoint [DELETE ' + endpoint + ']', 'Zeus/API');
 	
 		$.ajax({
@@ -164,7 +176,11 @@ app.core.api = function() {
 			success: function(data) {
 				handleSuccess(data, callback);
 			},
-			error: handleError
+			error: function(request) {
+				if (errorHandler) return errorHandler(endpoint, request);
+
+				handleError(request);
+			}
 		});
 	};
 }
