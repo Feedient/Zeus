@@ -1,7 +1,7 @@
 ![Zeus by Feedient](http://i.imgur.com/acr0YmB.png)
 #### Single Page Application Framework
-
 ***
+
 ## Browser requirements
 [HTML5 History](http://caniuse.com/history)
 - Internet Explorer >= 10
@@ -22,16 +22,15 @@
 ```html
 <base href="/path/to/my/app/">
 ```
-
-4. Also the base path in `app/config.js` if you host it in a sub folder:
+Also edit the base path in `app/config.js` if you host it in a sub folder:
 ```javascript
 // Path without trailing slash
 path: '/path/to/my/app',
 ```
 
-5. Make sure to set your 404 error document to "index.html" in your web server. A `.htaccess` for Apache is included in the repository.
+*Make sure to set your 404 error document to "index.html" in your web server. A `.htaccess` for Apache is included in the repository.*
 
-6. Done!
+**Done!**
 
 ## Loading any file or component
 Please add your file path to the appropriate `autoLoad` section, such as `lib`, in `app/config.js`. You may emit the .js extension, since [Require.js](http://requirejs.org) adds that automatically.
