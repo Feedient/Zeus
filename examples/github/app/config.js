@@ -72,7 +72,8 @@ app.config = {
 		files: [
 			'general',
 			'github'
-		]
+		],
+		parallelLimit: 5,
 	},
 
 	// View engine settings
