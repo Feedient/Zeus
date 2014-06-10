@@ -1,0 +1,3 @@
+{
+	"welcome": "Click on <a href='list'>list</a> or <a href='repos'>repositories</a> to see example pages. This is the US variation of the locale. It inherits all Brittish locale strings, but may override them.",
+}

@@ -6,9 +6,9 @@
 				<span style="font-size:14px;">{{language}}</span>
 			</h3>
 			<p>{{description}}</p>
-			<p>{{stargazers_count}} stars &amp; {{watchers_count}} watchers.</p>
+			<p>{{stargazers_count}} {{i18n 'github.stars'}} &amp; {{watchers_count}} {{i18n 'github.watchers'}}.</p>
 		</div>
 	{{/each}}
 {{else}}
-	There are no repositores.
+	{{i18n 'github.no_repos'}}
 {{/if}}

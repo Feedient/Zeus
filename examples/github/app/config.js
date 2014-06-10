@@ -3,6 +3,12 @@ app.config = {
 	// Log level, between 0-3 where 3 is all messages and 0 is none
 	logLevel: 3,
 
+	// Path without trailing slash
+	path: '',
+
+	// API server URL (optional)
+	API: 'https://api.github.com',
+
 	autoLoad: {
 		// Core => app.core.*
 		core: [
@@ -11,7 +17,8 @@ app.config = {
 			'lib/zeus/view',
 			'lib/zeus/router',
 			'lib/zeus/api',
-			'lib/zeus/cache'
+			'lib/zeus/cache',
+			'lib/zeus/i18n'
 		],
 		
 		// Libraries => app.lib.*
@@ -51,6 +58,31 @@ app.config = {
 		}
 	},
 
+	// Localization settings
+	localization: {
+		defaultLocale: 'en_GB',
+		locales: {
+			en_GB: 'English (UK)',
+			en_US: {
+				name: 'English (US)',
+				extend: 'en_GB'
+			},
+			sv_SE: 'Svenska'
+		},
+		files: [
+			'general',
+			'github'
+		],
+		parallelLimit: 5,
+	},
+
+	// View engine settings
+	viewEngine: {
+		defaultSelector: '#main',
+		fileExtension: 'html',
+		parallelLimit: 5,
+	},
+
 	// Optionally preload common views
 	preloadViews: [
 		'index',
@@ -60,18 +92,5 @@ app.config = {
 	// Optionally preload common partials
 	preloadViewPartials: {
 		// listItem: 'partials/list-item'
-	},
-
-	// Path without trailing slash
-	path: '',
-
-	// View engine settings
-	viewEngine: {
-		defaultSelector: '#main',
-		fileExtension: 'html',
-		parallelLimit: 5,
-	},
-
-	// API server URL
-	API: 'https://api.github.com'
+	}
 };
