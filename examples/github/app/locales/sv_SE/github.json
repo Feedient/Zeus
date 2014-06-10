@@ -1,3 +1,7 @@
 {
-	"test": "Hej världen"
+	"intro": "Här är de open source projekt som drivs av Feedient",
+	"button": "Jag är en knapp. Klicka på mig.",
+	"stars": "stjärnor",
+	"watchers": "följare",
+	"no_repos": "Det finns inga repositories"
 }

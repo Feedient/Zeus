@@ -1,9 +1,9 @@
-app.core.localization = function() {
+app.core.i18n = function() {
 	var isLoaded = false;
-	var userLocale = 'en_US';
-	var localeData = {};
-	var extendLocale = false;
 	var defaultLocale = app.config.localization.defaultLocale;
+	var userLocale = defaultLocale;
+	var extendLocale = false;
+	var localeData = {};
 
 	/**
 	 * Change the locale
@@ -88,7 +88,7 @@ app.core.localization = function() {
 	 * @param Object properties
 	 * @return String
 	 */
-	this.getString = function(key, properties) {
+	this.get = function(key, properties) {
 		var pieces = key.split('.');
 		var levels = pieces.length;
 
@@ -201,6 +201,17 @@ app.core.localization = function() {
 			});
 		}
 
-		async.series(loadFunctions, next);
+		async.series(loadFunctions, function() {
+			// Translate static views by attribute
+			$('[data-i18n]').each(function() {
+				var $this = $(this);
+				$this.html(app.core.i18n.get($this.attr('data-i18n')));
+			});
+
+			next();
+		});
 	});
+
+	// Register Handlebars helper
+	Handlebars.registerHelper('i18n', this.get);
 };

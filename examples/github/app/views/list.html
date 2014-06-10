@@ -1,5 +1,5 @@
 <div>
-	This page uses a partial to render the list items. The item data is received from the controller and looped in the view.<br><br>
+	{{i18n 'general.list.intro'}}<br><br>
 </div>
 
 {{#if items.length}}
@@ -9,5 +9,5 @@
 		{{/each}}
 	</ul>
 {{else}}
-	<p>There are no items to show</p>
+	<p>{{i18n 'general.list.no_items'}}</p>
 {{/if}}

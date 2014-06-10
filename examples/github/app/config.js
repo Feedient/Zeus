@@ -18,7 +18,7 @@ app.config = {
 			'lib/zeus/router',
 			'lib/zeus/api',
 			'lib/zeus/cache',
-			'lib/zeus/localization'
+			'lib/zeus/i18n'
 		],
 		
 		// Libraries => app.lib.*

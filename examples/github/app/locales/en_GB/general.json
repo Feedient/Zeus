@@ -1,5 +1,15 @@
 {
-	"test": {
-		"test": "Hello world"
+	"menu": {
+		"home": "Home",
+		"list": "List",
+		"repos": "Repositories"
+	},
+	"loading": "Loading...",
+	"welcome": "Click on <a href='list'>list</a> or <a href='repos'>repositories</a> to see example pages.",
+	"404": "Page not found",
+	"list": {
+		"intro": "This page uses a partial to render the list items. The item data is received from the controller and looped in the view.",
+		"no_items": "There are no items to show",
+		"ago": "ago"
 	}
 }
