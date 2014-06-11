@@ -58,3 +58,7 @@ Zeus ships with a handy library for performing API calls via AJAX. You are requi
 
 ## [Core] Cache library
 To make sure your single page application is fast and responsive to the user, it's a good idea to cache data, especially if it's retrieved from a slow API server. Zeus provide basic caching through in-memory storage for visit-long storage capabilities. [Read more](https://github.com/Feedient/Zeus/wiki/%5BCore%5D-Cache)
+
+
+## [Core] Localization (i18n)
+Feedient ships with a lightweight but powerful localization system, available at `app.core.i18n` and through `{{i18n '...'}}` Handlebars helper. [Read more](https://github.com/Feedient/Zeus/wiki/%5BCore%5D-Localization-(i18n))
