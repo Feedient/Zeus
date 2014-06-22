@@ -159,12 +159,16 @@ app.core.i18n = function() {
 						success: function(source){ 
 							app.core.log.debug('Loaded localization file [' + locale + '/' + fileName + ']', 'Zeus/Localization');
 
-							try {
-								var data = JSON.parse(source);
-							} catch (error) {
-								app.core.log.error(error);
-								parallelCallback();
-								return;
+							if (typeof source == 'string') {
+								try {
+									var data = JSON.parse(source);
+								} catch (error) {
+									app.core.log.error(error);
+									parallelCallback();
+									return;
+								}
+							} else {
+								var data = source;
 							}
 
 							localeData[locale][fileName] = data;
