@@ -1,4 +1,5 @@
 app.core.i18n = function() {
+	var self = this;
 	var isLoaded = false;
 	var defaultLocale = app.config.localization.defaultLocale;
 	var userLocale = defaultLocale;
@@ -213,5 +214,13 @@ app.core.i18n = function() {
 	});
 
 	// Register Handlebars helper
-	Handlebars.registerHelper('i18n', this.get);
+	Handlebars.registerHelper('i18n', function(key, properties, stringTransform) {
+		var result = self.get(key, properties);
+
+		if (stringTransform && typeof stringTransform == 'string') {
+			result = result[stringTransform]();
+		}
+
+		return new Handlebars.SafeString(result);
+	});
 };
