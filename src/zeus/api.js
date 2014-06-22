@@ -1,6 +1,6 @@
 app.core.api = function() {
 	'use strict';
-	
+
 	var errorHandler;
 	var successHandler;
 	var customHeaders = {};
@@ -25,11 +25,11 @@ app.core.api = function() {
 		if (errorHandler) {
 			return errorHandler(request.status);
 		}
-	
+
 		app.core.log.warning('No API error handler specified.', 'Zeus/API');
 		app.core.log.error('API responded with status ' + request.status, 'Zeus/API');
 	};
-	
+
 	/**
 	 * Merge HTTP headers with custom headers
 	 * @param Object headers
@@ -37,7 +37,7 @@ app.core.api = function() {
 	 */
 	var getHeaders = function(headers) {
 		if (!headers) var headers = {};
-	
+
 		if (customHeaders) {
 			for (var i in customHeaders) {
 				if (typeof customHeaders[i] == 'function') {
@@ -47,10 +47,10 @@ app.core.api = function() {
 				}
 			}
 		}
-	
+
 		return headers;
 	};
-	
+
 	/**
 	 * Handle successful API requests
 	 * @param Mixed data
@@ -60,10 +60,10 @@ app.core.api = function() {
 		if (!successHandler) {
 			return callback(data);
 		}
-	
+
 		successHandler(data, callback);
 	};
-	
+
 	/**
 	 * Listen for API errors
 	 * @param Function callback(httpStatus)
@@ -71,7 +71,7 @@ app.core.api = function() {
 	this.onError = function(callback) {
 		errorHandler = callback;
 	};
-	
+
 	/**
 	 * Listen for successful API calls
 	 * @param Function callback(data, successCallback)
@@ -79,7 +79,7 @@ app.core.api = function() {
 	this.onSuccess = function(callback) {
 		successHandler = callback;
 	};
-	
+
 	/**
 	 * Add a custom HTTP header to every API request
 	 * @param String key
@@ -88,18 +88,27 @@ app.core.api = function() {
 	this.addHeader = function(key, value) {
 		customHeaders[key] = value;
 	};
-	
+
 	/**
 	 * Make a GET request to the API server
 	 * @param String endpoint
 	 * @param Function callback
 	 */
-	this.get = function(endpoint, callback, errorHandler) {
+	this.get = function(endpoint, headers, callback, errorHandler) {
+		// If headers is not defined
+		if (typeof headers == 'function') {
+			errorHandler = callback;
+			callback = headers;
+			headers = {};
+		}
+
+		var mergedHeaders = _mergeObject(getHeaders(), headers);
+
 		app.core.log.debug('Calling API endpoint [GET ' + endpoint + ']', 'Zeus/API');
-	
+
 		$.ajax({
 			url: formatURL(endpoint),
-			headers: getHeaders(),
+			headers: mergedHeaders,
 			type: 'GET',
 			success: function(data) {
 				handleSuccess(data, callback);
@@ -111,20 +120,41 @@ app.core.api = function() {
 			}
 		});
 	};
-	
+
 	/**
 	 * Make a POST request to the API server
+	 * headers is optional, if it is not set we will have: function(endpoint, data, callback, errorHandler)
+	 *
+	 * @param Array ajaxOptions optional possible parameters: [ hasContentType, hasProcessData ]
 	 * @param String endpoint
 	 * @param Function callback
 	 */
-	this.post = function(endpoint, data, callback, errorHandler) {
+	this.post = function(endpoint, data, headers, ajaxOptions, callback, errorHandler) {
+		// If headers is callback
+		if (typeof headers == 'function') {
+			callback = headers;
+			headers = {};
+			errorHandler = ajaxOptions;
+			ajaxOptions = {};
+		}
+
+		// If ajaxOptions is callback
+		if (typeof ajaxOptions == 'function') {
+			callback = ajaxOptions;
+			ajaxOptions = {};
+			errorHandler = callback;
+		}
+
+		var mergedHeaders = _mergeObject(getHeaders(), headers);
 		app.core.log.debug('Calling API endpoint [POST ' + endpoint + ']', 'Zeus/API');
-	
+
 		$.ajax({
 			url: formatURL(endpoint),
-			headers: getHeaders(),
+			headers: mergedHeaders,
 			type: 'POST',
 			data: data,
+			contentType: ajaxOptions.hasContentType,
+			processData: ajaxOptions.hasProcessData,
 			success: function(data) {
 				handleSuccess(data, callback);
 			},
@@ -135,18 +165,27 @@ app.core.api = function() {
 			}
 		});
 	};
-	
+
 	/**
 	 * Make a POST request to the API server
 	 * @param String endpoint
 	 * @param Function callback
 	 */
-	this.put = function(endpoint, data, callback, errorHandler) {
+	this.put = function(endpoint, data, headers, callback, errorHandler) {
+		// If headers is not defined
+		if (typeof headers == 'function') {
+			errorHandler = callback;
+			callback = headers;
+			headers = {};
+		}
+
+		var mergedHeaders = _mergeObject(getHeaders(), headers);
+
 		app.core.log.debug('Calling API endpoint [POST ' + endpoint + ']', 'Zeus/API');
-	
+
 		$.ajax({
 			url: formatURL(endpoint),
-			headers: getHeaders(),
+			headers: mergedHeaders,
 			type: 'PUT',
 			data: data,
 			success: function(data) {
@@ -159,18 +198,27 @@ app.core.api = function() {
 			}
 		});
 	};
-	
+
 	/**
 	 * Make a DELETE request to the API server
 	 * @param String endpoint
 	 * @param Function callback
 	 */
-	this.delete = function(endpoint, data, callback, errorHandler) {
+	this.delete = function(endpoint, data, headers, callback, errorHandler) {
+		// If headers is not defined
+		if (typeof headers == 'function') {
+			errorHandler = callback;
+			callback = headers;
+			headers = {};
+		}
+
+		var mergedHeaders = _mergeObject(getHeaders(), headers);
+
 		app.core.log.debug('Calling API endpoint [DELETE ' + endpoint + ']', 'Zeus/API');
-	
+
 		$.ajax({
 			url: formatURL(endpoint),
-			headers: getHeaders(),
+			headers: mergedHeaders,
 			type: 'DELETE',
 			data: data,
 			success: function(data) {
@@ -183,4 +231,12 @@ app.core.api = function() {
 			}
 		});
 	};
+
+	var _mergeObject = function(object1, object2) {
+		for (var i in object2) {
+			object1[i] = object2[i];
+		}
+
+		return object1;
+	}
 }
