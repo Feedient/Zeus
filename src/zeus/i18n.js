@@ -24,7 +24,7 @@ app.core.i18n = function() {
 		}
 
 		var userLocaleData = app.config.localization.locales[newLocale];
-		extendLocale = (typeof userLocaleData == 'Object') ? userLocaleData.extend : '';
+		extendLocale = (typeof userLocaleData != 'string') ? userLocaleData.extend : '';
 
 		userLocale = newLocale;
 	};
