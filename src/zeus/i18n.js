@@ -34,10 +34,11 @@ app.core.i18n = function() {
 	 * @param String locale
 	 * @param String file
 	 * @param String namespace
+	 * @param String subNamespace
 	 * @param String property
 	 * @return Boolean
 	 */
-	var propertyExists = function(locale, file, namespace, property) {
+	var propertyExists = function(locale, file, namespace, subNamespace, property) {
 		// Does the file and namespace exist?
 		if (localeData[locale] && localeData[locale][file] && localeData[locale][file][namespace]) {
 			var namespaceObject = localeData[locale][file][namespace];
@@ -48,8 +49,14 @@ app.core.i18n = function() {
 			}
 
 			// Is the item an object and does it contain the property?
-			if (typeof namespaceObject == 'object' && namespaceObject[property]) {
-				return true;
+			if (typeof namespaceObject == 'object') {
+				if (!subNamespace && namespaceObject[property]) {
+					return true;
+				}
+
+				if (subNamespace && namespaceObject[subNamespace] && namespaceObject[subNamespace][property]) {
+					return true;
+				}
 			}
 		}
 
@@ -61,14 +68,17 @@ app.core.i18n = function() {
 	 * @param String locale
 	 * @param String file
 	 * @param String namespace
+	 * @param String subNamespace
 	 * @param String property
 	 * @param String properties
 	 * @return String
 	 */
-	var getProperty = function(locale, file, namespace, property, properties) {
+	var getProperty = function(locale, file, namespace, subNamespace, property, properties) {
 		var localeString;
 
-		if (property) {
+		if (property && subNamespace) {
+			localeString = localeData[locale][file][namespace][subNamespace][property];
+		} else if (property && !subNamespace) {
 			localeString = localeData[locale][file][namespace][property];
 		} else {
 			localeString = localeData[locale][file][namespace];
@@ -102,28 +112,36 @@ app.core.i18n = function() {
 		}
 		
 		// Prevent misunderstanding for deeply nested properties
-		if (levels >= 4) {
-			app.core.log.warning('Localization property format is file.namespace.property or file.property', 'Zeus/Localization');
+		if (levels >= 5) {
+			app.core.log.warning('Localization property format is file.namespace.namespace.property, file.namespace.property or file.property', 'Zeus/Localization');
 			return key;
 		}
 
 		var file = pieces[0];
 		var namespace = pieces[1];
-		var property = (levels == 3) ? pieces[2] : false;
+		var subNamespace = false;
+		var property = false;
+
+		if (levels == 4) {
+			property = pieces[3];
+			subNamespace = pieces[2];
+		} else if (levels == 3) {
+			property = pieces[2];
+		}
 
 		// First attempt: user locale
-		if (propertyExists(userLocale, file, namespace, property)) {
-			return getProperty(userLocale, file, namespace, property, properties);
+		if (propertyExists(userLocale, file, namespace, subNamespace, property)) {
+			return getProperty(userLocale, file, namespace, subNamespace, property, properties);
 		}
 
 		// Second attempt: user locale's extend locale
-		if (extendLocale && propertyExists(extendLocale, file, namespace, property)) {
-			return getProperty(extendLocale, file, namespace, property, properties);
+		if (extendLocale && propertyExists(extendLocale, file, namespace, subNamespace, property)) {
+			return getProperty(extendLocale, file, namespace, subNamespace, property, properties);
 		}
 
 		// Third attempt: default locale
-		if (userLocale != defaultLocale && defaultLocale != extendLocale && propertyExists(defaultLocale, file, namespace, property)) {
-			return getProperty(defaultLocale, file, namespace, property, properties);
+		if (userLocale != defaultLocale && defaultLocale != extendLocale && propertyExists(defaultLocale, file, namespace, subNamespace, property)) {
+			return getProperty(defaultLocale, file, namespace, subNamespace, property, properties);
 		}
 
 		app.core.log.warning('Could not find localization property [' + key + ']', 'Zeus/Localization');
