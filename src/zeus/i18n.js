@@ -18,7 +18,7 @@ app.core.i18n = function() {
 		}
 
 		// Make sure locale is supported
-		if (app.config.localization.locales[newLocale]) {
+		if (!app.config.localization.locales[newLocale]) {
 			app.core.log.warning('Locale ' + newLocale + ' does not exist in app.config.localization.locales', 'Zeus/Localization');
 			return;
 		}
