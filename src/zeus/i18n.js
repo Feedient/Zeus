@@ -90,6 +90,9 @@ app.core.i18n = function() {
 	 * @return String
 	 */
 	this.get = function(key, properties) {
+		// Compatibility with i18next string key notation
+		if (/:/.test(key)) key = key.replace(':', '.');
+
 		var pieces = key.split('.');
 		var levels = pieces.length;
 
